@@ -1,0 +1,11 @@
+.navbar {
+    width: 100%;
+    height: 65px;
+    background-color: black;
+}
+
+.nav-title {
+    font-size: 30px;
+    color: white;
+    padding: 10px;
+}
