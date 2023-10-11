@@ -12,7 +12,11 @@ import { auth, firestore } from './firebase';
 
 // components
 import SignIn from './components/auth/SignIn'
+import Navbar from './components/Navbar';
 import Home from './components/Home'
+import Books from './components/Books'
+import View from './components/View'
+import AddBook from './components/AddBook'
 
 function App() {
     const [user] = useAuthState(auth)
@@ -24,10 +28,19 @@ function App() {
 
     return (
         <Router>
+            <Navbar />
             <Routes>
                 <Route
                     path='/'
                     element={<Home />}
+                />
+                <Route
+                    path='/view'
+                    element={<Books />}
+                />
+                <Route
+                    path='/add'
+                    element={<AddBook />}
                 />
             </Routes>
         </Router>

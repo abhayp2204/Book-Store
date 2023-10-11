@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
-import '../css/Card.css';
+import '../css/Book.css';
 
-function Card(props) {
+function Book(props) {
     const [hovered, setHovered] = useState(false);
 
-    const cardStyle = {
+    const bookStyle = {
         position: 'relative',
         width: '400px',
         height: '400px',
@@ -31,14 +31,14 @@ function Card(props) {
 
     return (
         <div
-            className='card'
-            style={cardStyle}
+            className='book'
+            style={bookStyle}
             onMouseEnter={() => setHovered(true)}
             onMouseLeave={() => setHovered(false)}
         >
             <div style={backgroundStyle}></div>
-            <div className='card-title'>
-                {props.card.name}
+            <div className='book-title'>
+                {props.book.name}
             </div>
             
             <button
@@ -57,4 +57,4 @@ function Card(props) {
     );
 }
 
-export default Card;
+export default Book;

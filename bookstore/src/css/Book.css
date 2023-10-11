@@ -1,0 +1,124 @@
+.books-display {
+    display: flex;
+    flex-direction: row;
+    margin-top: 20px;
+    margin-left: 20px;
+}
+
+.book {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 400px;
+    height: 400px;
+    font-weight: bolder;
+    font-size: 40px;
+    margin: 20px;
+    transition: 300ms ease-in-out;
+}
+
+.book-title {
+    background: transparent;
+    position: relative;
+    transition: background-color 0.3s ease-in-out;
+}
+
+.book:hover .book-title {
+    background-color: transparent;
+}
+
+.book:hover {
+    cursor: pointer;
+}
+
+.delete-button {
+    position: absolute;
+    bottom: 20px;
+    left: 20px;
+    background-color: rgb(23, 25, 26);
+    font-weight: bold;
+    margin-top: 20px;
+    width: 30px;
+    height: 30px;
+    border: transparent;
+    border-radius: 100%;
+    transition: 300ms ease-in-out;
+}
+
+.delete-button:hover {
+    cursor: pointer;
+    background-color: rgb(202, 68, 68);
+}
+
+.add-book-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin-top: 100px;
+}
+
+.add-book {
+    font-size: 20px;
+    margin-top: 10px;
+    text-align: center;
+}
+
+.input-book-name {
+    border: 1px solid black;
+    padding: 10px;
+    border-radius: 10px;
+    margin-bottom: 10px;
+    width: 400px;
+}
+
+.input-book-author {
+    border: 1px solid black;
+    width: 300px;
+    padding: 10px;
+    border-radius: 10px;
+    margin-bottom: 10px;
+}
+
+.input-book-image {
+    width: 400px;
+    border: 1px solid black;
+    padding: 10px;
+    border-radius: 10px;
+    margin-bottom: 10px;
+}
+
+.input-book-description {
+    width: 600px;
+    height: 100px;
+    border: 1px solid black;
+    padding: 10px;
+    border-radius: 10px;
+    margin-bottom: 10px;
+}
+
+.input-book-pages {
+    border: 1px solid black;
+    padding: 10px;
+    border-radius: 10px;
+    margin-bottom: 10px;
+}
+
+.add-book-button {
+    padding: 20px 10px;
+    margin-right: 15px;
+    border-radius: 10px;
+    border: none;
+    color: white;
+    background-color: #11b31c;
+    font-weight: bold;
+    transition: 300ms ease-in-out;
+    width: 100px;
+}
+
+.add-book-button:hover {
+    cursor: pointer;
+    background-color: #1dd72a;
+}

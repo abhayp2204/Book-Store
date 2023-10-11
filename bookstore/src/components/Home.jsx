@@ -1,68 +1,49 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import '../css/Home.css';
-import Cards from './Cards';
+import Books from './Books';
 import Calendar from './Calendar';
 import Days from './Days';
 
 function Home() {
-    const [span, setSpan] = useState('day');
+    const [tab, setTab] = useState('View Books');
     const [showCalendar, setShowCalendar] = useState(false);
     const [date, setDate] = useState(new Date());
 
-    const toggleCalendar = () => {
-        setShowCalendar(!showCalendar);
-    }
-
-    // Function to get the full month name
-    const getFullMonthName = () => {
-        const options = { month: 'long' };
-        return date.toLocaleDateString('en-US', options);
-    }
 
     return (
         <div className="home">
             <div className="dmy-tab-container">
-                <div
-                    className={`dmy ${span === 'day' ? 'active' : ''}`}
-                    onClick={() => setSpan('day')}
+                <Link
+                    className={`dmy ${tab === 'view' ? 'active' : ''}`}
+                    to='/view'
+                    onClick={() => setTab('view')}
                 >
-                    Day
+                    View Books
+                </Link>
+                <div
+                    className={`dmy ${tab === 'add' ? 'active' : ''}`}
+                    onClick={() => setTab('add')}
+                >
+                    Add Book
                 </div>
                 <div
-                    className={`dmy ${span === 'month' ? 'active' : ''}`}
-                    onClick={() => setSpan('month')}
+                    className={`dmy ${tab === 'cart' ? 'active' : ''}`}
+                    onClick={() => setTab('cart')}
                 >
-                    Month
+                    Cart
                 </div>
                 <div
-                    className={`dmy ${span === 'year' ? 'active' : ''}`}
-                    onClick={() => setSpan('year')}
+                    className={`dmy ${tab === 'orders' ? 'active' : ''}`}
+                    onClick={() => setTab('orders')}
                 >
-                    Todo
-                </div>
-                <div
-                    className="dmy"
-                    onClick={toggleCalendar}
-                >
-                    Calendar
+                    Orders
                 </div>
             </div>
 
-            <div className='date-display'>{date.getDate()} {getFullMonthName()}, {date.getFullYear()}</div>
 
-            {showCalendar && (
-                <Calendar
-                    selectedDate={date}
-                    setSelectedDate={setDate}
-                    closeCalendar={toggleCalendar}
-                />
-            )}
-
-            <Days date={date} setDate={setDate} />
-
-            <div className="cards">
-                <Cards type={span} date={date} />
+            <div className="books">
+                <Books type={tab} date={date} />
             </div>
         </div>
     );

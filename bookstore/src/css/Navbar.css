@@ -1,0 +1,14 @@
+.navbar {
+    width: 100%;
+    background-color: black;
+    display: flex;
+}
+
+.nav-link {
+    text-decoration: none;
+    margin: 10px;
+    padding: 8px 20px;
+    background-color: black;
+    color: white;
+    font-size: 20px;
+}

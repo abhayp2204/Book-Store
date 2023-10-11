@@ -13,3 +13,9 @@ Click here to download!
 ```npm run dev``` to start the application<br />
 ```npm i firebase react-firebase-hooks```
 4. Click on the link *http://localhost:5173/*
+
+## Features
+1. Authentication
+2. View
+3. Cart
+4. Checkout
