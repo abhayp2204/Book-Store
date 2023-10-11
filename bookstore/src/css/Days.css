@@ -1,0 +1,34 @@
+/* Your existing styles */
+.days-list {
+    display: flex;
+    margin: 20px;
+}
+
+.day-item {
+    width: 20px;
+    height: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-weight: 700;
+
+    background-color: white;
+    color: black;
+    padding: 6px;
+    margin: 2px 2.2px;
+    border-radius: 8px;
+}
+
+.day-active {
+    background-color: #C1292E;
+    color: white;
+    border: 1px solid white;
+}
+
+.day-active:hover {
+    background-color: #e70f16;
+}
+
+.day-item:hover {
+    cursor: pointer;
+}

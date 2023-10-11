@@ -10,5 +10,6 @@ Click here to download!
 1. Download the code and cd into **/bookstore**
 2. Run these 2 commands:<br/>
 ```npm install``` to download the necessary packages<br/>
-```npm run dev``` to start the application
+```npm run dev``` to start the application<br />
+```npm i firebase react-firebase-hooks```
 4. Click on the link *http://localhost:5173/*
