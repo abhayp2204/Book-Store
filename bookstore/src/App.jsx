@@ -16,6 +16,7 @@ import Navbar from './components/Navbar';
 import Home from './components/Home'
 import Books from './components/Books'
 import AddBook from './components/AddBook'
+import Cart from './components/Cart'
 
 function App() {
     const [user] = useAuthState(auth)
@@ -40,6 +41,10 @@ function App() {
                 <Route
                     path='/add'
                     element={<AddBook />}
+                />
+                <Route
+                    path='/cart'
+                    element={<Cart />}
                 />
             </Routes>
         </Router>

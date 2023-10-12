@@ -6,7 +6,7 @@
 }
 
 .book {
-    background-color: black;
+    background-color: rgb(60, 125, 199);
     position: relative;
     display: flex;
     flex-direction: column;
@@ -122,3 +122,11 @@
     cursor: pointer;
     background-color: #1dd72a;
 }
+
+.add-button {
+    background-color: white;
+    z-index: 20;
+}
+/* .add-button:hover {
+    background-color: #11b31c;
+} */

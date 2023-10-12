@@ -37,7 +37,9 @@ function Books(props) {
 
     const addBook = async (bookId) => {
         const user = auth.currentUser;
+        console.log("user = ", user)
         if (user) {
+            console.log("Added book " + bookId + " to " + user)
             const userRef = usersRef.doc(user.uid);
             userRef.update({
                 cart: firebase.firestore.FieldValue.arrayUnion(bookId)
@@ -54,7 +56,6 @@ function Books(props) {
 
     return (
         <div className="books">
-            {console.log(books)}
             <div className="books-display">
                 {loading ? (
                     <p>Loading books...</p>

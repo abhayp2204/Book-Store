@@ -27,6 +27,7 @@ function SignIn() {
                             // If the user doesn't exist, create a new document
                             usersRef.add({
                                 name: user.displayName,
+                                uid: user.uid,
                                 email: user.email,
                                 cart: [],
                                 orders: []
