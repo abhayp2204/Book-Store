@@ -1,6 +1,7 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
 import '../css/Navbar.css'
+import SignOut from './auth/SignOut'
 
 function Navbar() {
     return (
@@ -9,6 +10,7 @@ function Navbar() {
             <Link to='/add' className='nav-link'>Add Books</Link>
             <Link to='/cart' className='nav-link'>Cart</Link>
             <Link to='/checkout' className='nav-link'>Checkout</Link>
+            <SignOut />
         </div>
     )
 }

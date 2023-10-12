@@ -10,3 +10,11 @@
     text-decoration: None;
     transition: 300ms ease-in-out;
 }
+
+button {
+    transition: 300ms ease-in-out;
+}
+
+button:hover {
+    cursor: pointer;
+}
