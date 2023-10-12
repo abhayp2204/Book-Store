@@ -6,6 +6,7 @@
 }
 
 .book {
+    background-color: black;
     position: relative;
     display: flex;
     flex-direction: column;
@@ -20,7 +21,6 @@
 }
 
 .book-title {
-    background: transparent;
     position: relative;
     transition: background-color 0.3s ease-in-out;
 }

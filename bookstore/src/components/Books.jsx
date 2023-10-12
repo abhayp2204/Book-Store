@@ -1,74 +1,72 @@
-import React, { useState } from 'react'
-import Book from './Book'
-import '../css/Book.css'
+import React, { useState, useEffect } from 'react';
+import Book from './Book';
+import '../css/Book.css';
 
 // Firebase
-import firebase from "firebase/compat/app"
-import "firebase/compat/firestore"
-import "firebase/compat/auth"
-import { auth, firestore } from "../firebase"
-import { useCollectionData } from "react-firebase-hooks/firestore"
-import { useSendSignInLinkToEmail } from 'react-firebase-hooks/auth'
+import firebase from 'firebase/compat/app';
+import 'firebase/compat/firestore';
+import 'firebase/compat/auth';
+import { auth, firestore } from '../firebase';
+import { useCollectionData } from 'react-firebase-hooks/firestore';
 
 function Books(props) {
-    const booksRef = firestore.collection('books')
+    const booksRef = firestore.collection('books');
+    const usersRef = firestore.collection('users');
 
-    const [bookTitle, setBookTitle] = useState("")
+    const [books, setBooks] = useState([]); // State to store books
+    const [loading, setLoading] = useState(true); // Loading state
 
-    const query = booksRef.orderBy('createdAt').limit(25)
-    const [books] = useCollectionData(query, { idField: 'id' })
+    useEffect(() => {
+        // Fetch books when the component mounts
+        const fetchData = async () => {
+            try {
+                const query = booksRef.orderBy('id');
+                const data = await query.get();
+                const bookList = data.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
+                setBooks(bookList);
+            } catch (error) {
+                console.error('Error fetching books:', error);
+            } finally {
+                setLoading(false); // Set loading to false when done
+            }
+        };
 
-    const addBook = async (e) => {
-        e.preventDefault()
+        fetchData();
+    }, []);
 
-        await booksRef.add({
-            title: bookTitle,
-            image: Math.floor(Math.random() * 62) + 1,
-            date: props.date,
-            createdAt: firebase.firestore.FieldValue.serverTimestamp(),
-        })
 
-        setBookTitle('')
-    }
-
+    const addBook = async (bookId) => {
+        const user = auth.currentUser;
+        if (user) {
+            const userRef = usersRef.doc(user.uid);
+            userRef.update({
+                cart: firebase.firestore.FieldValue.arrayUnion(bookId)
+            });
+        }
+    };
 
     const deleteBook = async (bookTitle) => {
-        booksRef.where("name", "==", bookTitle).get()
-            .then(snapshot => {
-                snapshot.docs[0].ref.delete()
-            })
-    }
+        const bookToDelete = books.find((book) => book.title === bookTitle);
+        if (bookToDelete) {
+            booksRef.doc(bookToDelete.id).delete();
+        }
+    };
 
     return (
-        <div className='books'>
-            {/* <div className='add-book-container'>
-                <input
-                    className='input-book-name'
-                    value={bookTitle}
-                    onChange={(e) => setBookTitle(e.target.value)}
-                    placeholder='Add a Book'
-                />
-                <button
-                    className='add-book-button'
-                    onClick={(e) => addBook(e)}
-                >
-                    Add
-                </button>
-            </div> */}
-
-            <div className='books-display'>
-                {books && books.map((book, key) =>
-                    <Book
-                        key={key}
-                        book={book}
-                        image={book.image}
-                        onDelete={() => deleteBook(book.name)}
-                        onComplete={() => completeBook(book.name)}
-                    />
+        <div className="books">
+            {console.log(books)}
+            <div className="books-display">
+                {loading ? (
+                    <p>Loading books...</p>
+                ):
+                (
+                    books.map((book, key) => (
+                        <Book key={book.id} id={book.id} onAdd={addBook} onDelete={deleteBook} />
+                    ))
                 )}
             </div>
         </div>
-    )
+    );
 }
 
-export default Books
+export default Books;

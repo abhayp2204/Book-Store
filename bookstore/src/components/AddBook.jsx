@@ -19,10 +19,18 @@ function AddBook() {
     const query = booksRef.orderBy('createdAt').limit(25)
     const [books] = useCollectionData(query, { idField: 'id' })
 
+    function generateCustomBookId() {
+        const timestamp = new Date().getTime();
+        const random = Math.floor(Math.random() * 1000000); // Adjust the range as needed
+    
+        return `${timestamp}-${random}`;
+    }
+
     const addBook = async (e) => {
         e.preventDefault()
 
         await booksRef.add({
+            id: generateCustomBookId(),
             title: bookTitle,
             author: bookAuthor,
             image: bookImage,

@@ -15,7 +15,6 @@ import SignIn from './components/auth/SignIn'
 import Navbar from './components/Navbar';
 import Home from './components/Home'
 import Books from './components/Books'
-import View from './components/View'
 import AddBook from './components/AddBook'
 
 function App() {
