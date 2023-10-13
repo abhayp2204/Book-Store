@@ -16,51 +16,51 @@ function Cart(props) {
 
     useEffect(() => {
         const user = auth.currentUser;
-        if (user) {
-            const userRef = usersRef.where('uid', '==', user.uid);
-    
-            userRef.get()
-                .then((querySnapshot) => {
-                    if (!querySnapshot.empty) {
-                        const userDoc = querySnapshot.docs[0];
-                        const userData = userDoc.data();
-                        const userCart = userData.cart || [];
-    
-                        // Set the user's cart items in the state
-                        setCartItems(userCart);
+        if (!user) return;
 
-                        // Fetch book details for the items in the cart
-                        const bookPromises = userCart.map(bookId => {
-                            return booksRef.where('id', '==', bookId).get();
-                        });
+        const userRef = usersRef.where('uid', '==', user.uid);
 
-                        Promise.all(bookPromises)
-                            .then(bookSnapshots => {
-                                const booksData = bookSnapshots.map(bookSnapshot => {
-                                    const matchingBook = bookSnapshot.docs[0];
-                                    return {
-                                        id: matchingBook.id,
-                                        ...matchingBook.data(),
-                                    };
-                                });
-                                setBooksData(booksData);
-                            })
-                            .catch(error => {
-                                console.error('Error fetching book data:', error);
-                            })
-                            .finally(() => {
-                                setLoading(false); // Set loading to false once the data is fetched
+        userRef.get()
+            .then((snapshot) => {
+                if (!snapshot.empty) {
+                    const userDoc = snapshot.docs[0];
+                    const userData = userDoc.data();
+                    const userCart = userData.cart || [];
+
+                    // Set the user's cart items in the state
+                    setCartItems(userCart);
+
+                    // Fetch book details for the items in the cart
+                    const bookPromises = userCart.map(bookId => {
+                        return booksRef.where('id', '==', bookId).get();
+                    });
+
+                    Promise.all(bookPromises)
+                        .then(bookSnapshots => {
+                            const booksData = bookSnapshots.map(bookSnapshot => {
+                                const matchingBook = bookSnapshot.docs[0];
+                                return {
+                                    id: matchingBook.id,
+                                    ...matchingBook.data(),
+                                };
                             });
-                    } else {
-                        // Handle the case where the user document doesn't exist
-                        console.log("User document doesn't exist.");
-                        setLoading(false); // Set loading to false if the user document doesn't exist
-                    }
-                })
-                .catch((error) => {
-                    console.error('Error fetching user cart:', error);
-                });
-        }
+                            setBooksData(booksData);
+                        })
+                        .catch(error => {
+                            console.error('Error fetching book data:', error);
+                        })
+                        .finally(() => {
+                            setLoading(false); // Set loading to false once the data is fetched
+                        });
+                } else {
+                    // Handle the case where the user document doesn't exist
+                    console.log("User document doesn't exist.");
+                    setLoading(false); // Set loading to false if the user document doesn't exist
+                }
+            })
+            .catch((error) => {
+                console.error('Error fetching user cart:', error);
+            });
     }, []);
 
     // Ensure this dependency array matches your data-fetching logic

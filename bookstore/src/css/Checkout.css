@@ -1,0 +1,17 @@
+.checkout {
+    width: 80%;
+    max-width: 400px; /* Adjust the width as needed */
+    margin: 0 auto;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background-color: #f7f7f7;
+}
+
+.cart-item {
+    position: absolute;
+    top: 200px;
+    width: 200px;
+    height: 200px;
+    background-color: #b4f619;
+}
