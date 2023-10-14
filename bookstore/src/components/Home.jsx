@@ -7,9 +7,7 @@ import Days from './Days';
 function Home() {
     return (
         <div className="home">
-            <div className="books">
-                <Books />
-            </div>
+            <Books />
         </div>
     );
 }

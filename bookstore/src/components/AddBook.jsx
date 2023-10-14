@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import '../css/Book.css';
+import '../css/AddBook.css';
 
 // Firebase
 import 'firebase/compat/firestore';
@@ -16,10 +16,12 @@ function AddBook() {
     const [bookDescription, setBookDescription] = useState('');
     const [bookPages, setBookPages] = useState(0);
     const [bookPrice, setBookPrice] = useState(0);
+    const [bookGenre, setBookGenre] = useState('');
+    const [bookYear, setBookYear] = useState('');
 
     function generateCustomBookId() {
         const timestamp = new Date().getTime();
-        const random = Math.floor(Math.random() * 1000000); // Adjust the range as needed
+        const random = Math.floor(Math.random() * 1000000);
 
         return `${timestamp}-${random}`;
     }
@@ -34,8 +36,12 @@ function AddBook() {
             image: bookImage,
             description: bookDescription,
             pages: bookPages,
-            price: bookPrice, // Added the price field
+            price: bookPrice,
+            genre: bookGenre,
+            year: bookYear
         });
+
+        alert("Book has been added!")
 
         // Reset the input fields
         setBookTitle('');
@@ -43,7 +49,9 @@ function AddBook() {
         setBookImage('');
         setBookDescription('');
         setBookPages(0);
-        setBookPrice(0); // Reset the price field
+        setBookPrice(0);
+        setBookGenre('');
+        setBookYear('');
     }
 
     return (
@@ -55,7 +63,7 @@ function AddBook() {
                         className='add-book input-book-name'
                         value={bookTitle}
                         onChange={(e) => setBookTitle(e.target.value)}
-                        placeholder='Title'
+                        placeholder='Harry Potter and the Chamber of Secrets'
                     />
                 </div>
                 <div className='book-input book-author'>
@@ -64,7 +72,7 @@ function AddBook() {
                         className='add-book input-book-author'
                         value={bookAuthor}
                         onChange={(e) => setBookAuthor(e.target.value)}
-                        placeholder='Author'
+                        placeholder='JK Rowling'
                     />
                 </div>
                 <div className='book-input book-image'>
@@ -82,7 +90,7 @@ function AddBook() {
                         className='add-book input-book-description'
                         value={bookDescription}
                         onChange={(e) => setBookDescription(e.target.value)}
-                        placeholder='Description'
+                        placeholder='A brief introduction to the book'
                     />
                 </div>
                 <div className='book-input book-pages'>
@@ -103,6 +111,24 @@ function AddBook() {
                         value={bookPrice}
                         onChange={(e) => setBookPrice(parseFloat(e.target.value))}
                         placeholder='Price'
+                    />
+                </div>
+                <div className='book-input book-genre'>
+                    <div className='prompt'>Genre</div>
+                    <input
+                        className='add-book input-book-genre'
+                        value={bookGenre}
+                        onChange={(e) => setBookGenre(e.target.value)}
+                        placeholder='Fantasy, Science Fiction, etc.'
+                    />
+                </div>
+                <div className='book-input book-year'>
+                    <div className='prompt'>Year</div>
+                    <input
+                        className='add-book input-book-year'
+                        value={bookYear}
+                        onChange={(e) => setBookYear(e.target.value)}
+                        placeholder='Publication year'
                     />
                 </div>
                 <button className='add-book-button' onClick={(e) => addBook(e)}>

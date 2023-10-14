@@ -7,35 +7,14 @@ import "firebase/compat/firestore"
 import "firebase/compat/auth"
 import { auth, firestore } from "../firebase"
 
+import BookDetails from './BookDetails';
+
 function Book(props) {
     const usersRef = firestore.collection('users');
 
     const [hovered, setHovered] = useState(false);
     const [bookDetails, setBookDetails] = useState(null);
 
-    const bookStyle = {
-        position: 'relative',
-        width: '400px',
-        height: '400px',
-        color: 'white',
-        fontWeight: 'bolder',
-        // fontSize: hovered ? '40px' : '35px',
-        margin: '20px',
-        backgroundColor: hovered ? '#22c99f' : 'black',
-        transition: '0.3s ease-in-out', // Add transition for font size change
-    };
-
-    const backgroundStyle = {
-        backgroundImage: `url('pics/${bookDetails?.image}.jpg')`,
-        backgroundSize: 'cover',
-        position: 'absolute',
-        top: 0,
-        right: 0,
-        bottom: 0,
-        left: 0,
-        opacity: hovered ? 0.52 : 0.20,
-        transition: 'opacity 0.3s ease-in-out', // Add transition for background opacity change
-    };
 
     useEffect(() => {
         if (props.id) {
@@ -81,6 +60,7 @@ function Book(props) {
                             userDoc.ref.update({ cart: currentCart })
                                 .then(() => {
                                     console.log(`Book ${bookId} added to the cart for user ${user.uid}`);
+                                    alert("Added to Cart")
                                 })
                                 .catch((error) => {
                                     console.error('Error updating user document:', error);
@@ -100,31 +80,8 @@ function Book(props) {
     
 
     return (
-        <div
-            className='book'
-            style={bookStyle}
-            onMouseEnter={() => setHovered(true)}
-            onMouseLeave={() => setHovered(false)}
-        >
-            <div style={backgroundStyle}></div>
-            <div className='book-title'>
-                {bookDetails?.name}
-            </div>
-
-            <div className='book-details'>
-                <p>Title: {bookDetails?.title}</p>
-                <p>Author: {bookDetails?.author}</p>
-                <p>Genre: {bookDetails?.genre}</p>
-                <p>Published Year: {bookDetails?.publishedYear}</p>
-                <p>Price: ${bookDetails?.price}</p>
-            </div>
-
-            <button
-                onClick={() => addBook(props.id)} // Pass bookDetails to onAdd
-                className="add-button"
-            >
-                Add to Cart
-            </button>
+        <div className='books-display0' >
+            <BookDetails bookDetails={bookDetails} addToCart={addBook} />
         </div>
     );
 }

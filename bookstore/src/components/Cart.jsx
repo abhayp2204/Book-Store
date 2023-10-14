@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import '../css/Cart.css'; // Create a CSS file for your Cart component
+import { Link } from 'react-router-dom'
+import '../css/Cart.css'
 
 // Firebase
 import firebase from "firebase/compat/app"
@@ -63,27 +64,32 @@ function Cart(props) {
             });
     }, []);
 
-    // Ensure this dependency array matches your data-fetching logic
+    // Calculate the total price
+    const totalPrice = booksData.reduce((total, book) => total + (book.price || 0), 0);
 
     return (
         <div className="cart">
             <h2>Your Cart</h2>
+            <p>Total Price = ${totalPrice}</p> {/* Display the total price */}
             {loading ? (
                 <p>Loading...</p>
             ) : (
-                <>
-                    <ul>
+                <div className='cart-container'>
+                    <div className='cart-books'>
                         {booksData.map((book, index) => (
-                            <li key={index}>
-                                <h3>{book.title}</h3>
-                                <p>Author: {book.author}</p>
-                                <img src={book.image} alt={book.title} />
-                                <p>{book.description}</p>
-                            </li>
+                            <div className='book-details-cart' key={index}>
+                                <p className='book-title'>{book?.title}</p>
+                                <p className='book-author'>by {book?.author}</p>
+                                <p className='book-genre'>{book?.genre}</p>
+                                <p className='book-desc'>{book?.description}</p>
+                                <p className='book-year'>{book?.publishedYear}</p>
+                                <p className='book-price'>${book?.price}</p>
+                            </div>
                         ))}
-                    </ul>
+                    </div>
                     {booksData.length === 0 && <p>Your cart is empty.</p>}
-                </>
+                    <Link className='checkout-link pop' to='checkout'>Checkout</Link>
+                </div>
             )}
         </div>
     );

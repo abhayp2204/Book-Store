@@ -18,3 +18,11 @@ button {
 button:hover {
     cursor: pointer;
 }
+
+.pop {
+    transition: 300ms ease-in-out;
+}
+
+.pop:hover {
+    transform: scale(1.02);
+}

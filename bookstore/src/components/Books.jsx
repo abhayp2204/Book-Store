@@ -55,17 +55,15 @@ function Books(props) {
     };
 
     return (
-        <div className="books">
-            <div className="books-display">
-                {loading ? (
-                    <p>Loading books...</p>
-                ):
-                (
-                    books.map((book, key) => (
-                        <Book key={book.id} id={book.id} onAdd={addBook} onDelete={deleteBook} />
-                    ))
-                )}
-            </div>
+        <div className="books-display">
+            {loading ? (
+                <p>Loading books...</p>
+            ):
+            (
+                books.map((book, key) => (
+                    <Book key={book.id} id={book.id} onAdd={addBook} onDelete={deleteBook} />
+                ))
+            )}
         </div>
     );
 }
