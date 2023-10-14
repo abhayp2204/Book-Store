@@ -15,23 +15,14 @@
 }
 
 .book-details {
-    background-color: white;
-    max-width: 350px;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
     text-align: center;
-    margin: 10px;
-}
 
-.book-details {
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    text-align: center;
-
-    width: 300px;
+    width: 400px;
+    height: 580px;
     padding: 15px;
     border-radius: 10px;
     border: 1px solid rgb(137, 124, 124);
@@ -48,10 +39,9 @@
 }
 
 .book-author {
-    margin-top: 8px;
     background-color: white;
     font-size: 16px;
-    color: rgb(48, 237, 48);
+    color: rgb(174, 247, 57);
     font-weight: 700;
 }
 
@@ -67,7 +57,7 @@
 .book-desc {
     text-align: center;
     width: 70%;
-    font-size: 14px;
+    font-size: 12px;
     opacity: 0.66;
 }
 
@@ -86,4 +76,8 @@
 .book:hover {
     transform: scale(1.03);
     cursor: pointer;
+}
+
+.book-image {
+    width: 180px;
 }

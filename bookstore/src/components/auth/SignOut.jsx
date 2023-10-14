@@ -1,5 +1,5 @@
 import React from 'react'
-import '../css/Auth.css'
+import '../../css/Auth.css'
 
 // firebase
 import firebase from 'firebase/compat/app';

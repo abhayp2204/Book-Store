@@ -4,8 +4,9 @@ import 'firebase/compat/firestore';
 import 'firebase/compat/auth';
 import { useAuthState } from 'react-firebase-hooks/auth';
 import { useCollectionData } from 'react-firebase-hooks/firestore';
+import { getStorage } from 'firebase/storage'
 
-firebase.initializeApp({
+const app = firebase.initializeApp({
     apiKey: "AIzaSyCuXH6AeR9D2iytYI4l5T8aTqs5y7tC4jc",
     authDomain: "bookstore-c18be.firebaseapp.com",
     projectId: "bookstore-c18be",
@@ -15,5 +16,6 @@ firebase.initializeApp({
     measurementId: "G-PPJB0XR2CZ"
 });
 
+export const storage = getStorage(app)
 export const auth = firebase.auth();
 export const firestore = firebase.firestore();

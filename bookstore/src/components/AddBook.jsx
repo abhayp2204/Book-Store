@@ -4,8 +4,8 @@ import '../css/AddBook.css';
 // Firebase
 import 'firebase/compat/firestore';
 import 'firebase/compat/auth';
-import { auth, firestore } from '../firebase';
-import { useCollectionData } from 'react-firebase-hooks/firestore';
+import { storage, firestore } from '../firebase';
+import { ref, uploadBytesResumable, getDownloadURL } from 'firebase/storage'
 
 function AddBook() {
     const booksRef = firestore.collection('books');
@@ -18,6 +18,32 @@ function AddBook() {
     const [bookPrice, setBookPrice] = useState(0);
     const [bookGenre, setBookGenre] = useState('');
     const [bookYear, setBookYear] = useState('');
+
+    const [imageFile, setImageFile] = useState(null);
+    const [imageURL, setImageURL] = useState('');
+
+    const handleImageChange = (e) => {
+        const selectedFile = e.target.files[0];
+        setImageFile(selectedFile);
+    };
+
+    const handleImageUpload = () => {
+        if (imageFile) {
+            const storageRef = ref(storage, `/bookImages/${imageFile.name}`);
+            const uploadTask = uploadBytesResumable(storageRef, imageFile);
+
+            uploadTask.then((snapshot) => {
+                console.log('Image uploaded successfully.');
+                getDownloadURL(storageRef).then((downloadURL) => {
+                    setImageURL(downloadURL);
+                });
+            }).catch((error) => {
+                console.error('Error uploading image: ', error);
+            });
+        } else {
+            console.error('No image file selected.');
+        }
+    };
 
     function generateCustomBookId() {
         const timestamp = new Date().getTime();
@@ -33,7 +59,7 @@ function AddBook() {
             id: generateCustomBookId(),
             title: bookTitle,
             author: bookAuthor,
-            image: bookImage,
+            image: imageURL,
             description: bookDescription,
             pages: bookPages,
             price: bookPrice,
@@ -76,14 +102,21 @@ function AddBook() {
                     />
                 </div>
                 <div className='book-input book-image'>
-                    <div className='prompt'>Image URL</div>
+                    <div className='prompt'>Image Upload</div>
                     <input
+                        type='file'
+                        accept='image/*'
                         className='add-book input-book-image'
-                        value={bookImage}
-                        onChange={(e) => setBookImage(e.target.value)}
-                        placeholder='Image URL'
+                        onChange={handleImageChange}
                     />
+                    <button className='upload-book' onClick={handleImageUpload}>
+                        Upload Image
+                    </button>
+                    {imageURL && (
+                        <img src={imageURL} alt='Book Cover' className='uploaded-image' />
+                    )}
                 </div>
+
                 <div className='book-input book-description'>
                     <div className='prompt'>Description</div>
                     <textarea
