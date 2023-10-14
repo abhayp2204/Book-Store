@@ -69,8 +69,8 @@ function Cart(props) {
 
     return (
         <div className="cart">
-            <h2>Your Cart</h2>
-            <p>Total Price = ${totalPrice}</p> {/* Display the total price */}
+            <p className='cart-title'>Your Cart</p>
+            <p className='cart-price'>Total Price = ${totalPrice}</p> {/* Display the total price */}
             {loading ? (
                 <p>Loading...</p>
             ) : (

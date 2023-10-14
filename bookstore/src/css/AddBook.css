@@ -5,19 +5,21 @@
     align-items: center;
     width: 80%;
     max-width: 800px;
-    margin: 100px auto;
-    background-color: rgb(7, 197, 169);
+    margin: 30px auto;
+    background-color: #023047;
     padding: 20px;
     border: 2px solid #d1d1d1;
     border-radius: 8px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
 
+
 .book-input {
     width: 600px;
     background-color: transparent;
     display: flex;
     flex-direction: row;
+    border-color: #aef739;
     padding: 20px;
 }
 
@@ -39,15 +41,19 @@
 }
 
 .add-book-button {
-    padding: 10px 20px;
-    margin-top: 10px;
+    padding: 10px 30px;
+    margin-top: 20px;
     z-index: 3;
-    background-color: white;
-    border-radius: 10px;
+    background-color: #aef739;
+    border-radius: 30px;
     transition: 300ms ease-in-out;
+    font-size: 16px;
+    border: none;
+    font-weight: bold;
+    color: rgb(95, 94, 94);
 }
 
 .add-book-button:hover {
-    background-color: white;
+    background-color: #aef739;
     transform: scale(1.1);
 }

@@ -1,0 +1,9 @@
+.sign-out-button {
+    position: absolute;
+    top: 20px;
+    right: 30px;
+    background-color: transparent;
+    color: rgb(174, 247, 57);
+    border: none;
+    font-size: 18px;
+}
