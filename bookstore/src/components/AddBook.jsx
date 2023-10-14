@@ -92,7 +92,7 @@ function AddBook() {
                         placeholder='Harry Potter and the Chamber of Secrets'
                     />
                 </div>
-                <div className='book-input book-author'>
+                <div className='book-input book-author-input'>
                     <div className='prompt'>Author</div>
                     <input
                         className='add-book input-book-author'
@@ -101,7 +101,7 @@ function AddBook() {
                         placeholder='JK Rowling'
                     />
                 </div>
-                <div className='book-input book-image'>
+                <div className='book-input book-image-input'>
                     <div className='prompt'>Image Upload</div>
                     <input
                         type='file'

@@ -19,14 +19,10 @@
     justify-content: center;
 }
 
-.input-book-image {
-    margin-left: 60px;
-    margin-right: 10px;
-}
 
 
 .book-input {
-    width: 600px;
+    width: 609px;
     background-color: transparent;
     display: flex;
     flex-direction: row;
@@ -68,6 +64,13 @@
     background-color: #aef739;
     transform: scale(1.1);
 }
+
+.input-book-image {
+    width: 300px;
+    margin-left: 60px;
+    margin-right: 10px;
+}
+
 
 .upload-book {
     margin-left: 10px;

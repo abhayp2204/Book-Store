@@ -1,7 +1,7 @@
 import React from 'react';
 import '../css/Book.css';
 
-function BookDetails({ bookDetails, addBook }) {
+function BookDetails({ bookDetails, addToCart }) {
     return (
         <div className='book-details'>
             {console.log(bookDetails)}
@@ -15,7 +15,7 @@ function BookDetails({ bookDetails, addBook }) {
             <p className='book-year'>{bookDetails?.publishedYear}</p>
             <p className='book-price'>${bookDetails?.price}</p>
             <button
-                onClick={() => addBook(bookDetails.id)} // Pass bookDetails.id to onAdd
+                onClick={() => addToCart(bookDetails.id)} // Pass bookDetails.id to onAdd
                 className="add-book-button"
             >
                 Add to Cart

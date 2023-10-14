@@ -62,7 +62,40 @@ function Cart(props) {
             .catch((error) => {
                 console.error('Error fetching user cart:', error);
             });
-    }, []);
+    }, [cartItems]);
+
+    const removeFromCart = (bookId) => {
+        // Create a copy of the current cart items array without the item to be removed.
+        const updatedCart = cartItems.filter(itemId => itemId !== bookId);
+    
+        // Remove the item from Firestore.
+        const user = auth.currentUser;
+        if (user) {
+            usersRef.where('uid', '==', user.uid).get()  // Query based on user's UID
+            .then(snapshot => {
+                if (!snapshot.empty) {
+                    const userDoc = snapshot.docs[0];
+                    userDoc.ref.update({
+                        cart: updatedCart,
+                    })
+                    .then(() => {
+                        console.log("Item removed from cart and Firestore.");
+                    })
+                    .catch(error => {
+                        console.error('Error removing item from cart and Firestore:', error);
+                    });
+                }
+            })
+            .catch(error => {
+                console.error('Error fetching user document:', error);
+            });
+    
+            // Update the state with the updated cart items.
+            setCartItems(updatedCart);
+        }
+    };
+    
+    
 
     // Calculate the total price
     const totalPrice = booksData.reduce((total, book) => total + (book.price || 0), 0);
@@ -79,11 +112,15 @@ function Cart(props) {
                         {booksData.map((book, index) => (
                             <div className='book-details-cart' key={index}>
                                 <p className='book-title'>{book?.title}</p>
+                                {book?.image && (
+                                    <img className='book-image' src={book.image} alt={book.title} className='book-image' />
+                                )}
                                 <p className='book-author'>by {book?.author}</p>
                                 <p className='book-genre'>{book?.genre}</p>
-                                <p className='book-desc'>{book?.description}</p>
+                                {/* <p className='book-desc'>{book?.description}</p> */}
                                 <p className='book-year'>{book?.publishedYear}</p>
                                 <p className='book-price'>${book?.price}</p>
+                                <button className='remove-button' onClick={() => removeFromCart(book.id)}>Remove</button>
                             </div>
                         ))}
                     </div>
