@@ -56,12 +56,13 @@ function Checkout(props) {
 
                 return (
                     <div className="cart-item" key={index}>
+                        <div className='checkout-msg'>Your Items</div>
+                        <div className='line' />
                         {book ? (
-                            <div>
-                                <h2>{book.title}</h2>
-                                <h4>Author: {book.author}</h4>
-                                <img src={book.image} alt={book.title} />
-                                <p>{book.description}</p>
+                            <div className='checkout-book-details'>
+                                <div className='checkout-book-title'>{book.title}</div>
+                                <div className='checkout-book-author'>Author: {book.author}</div>
+                                <img className='checkout-book-image' src={book.image} alt={book.title} />
                             </div>
                         ) : (
                             'Book not found'

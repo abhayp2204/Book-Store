@@ -1,11 +1,13 @@
 .checkout {
+    display: flex;
+    justify-content: center;
+    
     width: 80%;
     max-width: 400px; /* Adjust the width as needed */
-    margin: 0 auto;
+    margin: 20px auto;
     padding: 20px;
     border: 1px solid #ccc;
     border-radius: 5px;
-    background-color: #f7f7f7;
 }
 
 .cart-item {
@@ -13,5 +15,39 @@
     top: 200px;
     width: 200px;
     height: 200px;
-    background-color: #b4f619;
+    /* background-color: #b4f619; */
+}
+
+.checkout-msg {
+    font-size: 20px;
+    margin-left: 50px;
+    margin-bottom: 10px;
+}
+
+.line {
+    width: 1000px;
+    height: 2px;
+    
+    margin-bottom: 10px;
+    position: absolute;
+    right: -400px;
+    background-color: black;
+    opacity: 0.3;
+}
+
+.checkout-book-details {
+    margin-top: 40px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.checkout-book-title {
+    font-weight: bold;
+    font-size: 20px;
+}
+
+.checkout-book-image {
+    width: 200px;
 }
