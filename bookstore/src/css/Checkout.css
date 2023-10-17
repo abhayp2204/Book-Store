@@ -1,53 +1,51 @@
 .checkout {
     display: flex;
-    justify-content: center;
-    
-    width: 80%;
-    max-width: 400px; /* Adjust the width as needed */
-    margin: 20px auto;
-    padding: 20px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-}
-
-.cart-item {
-    position: absolute;
-    top: 200px;
-    width: 200px;
-    height: 200px;
-    /* background-color: #b4f619; */
-}
-
-.checkout-msg {
-    font-size: 20px;
-    margin-left: 50px;
-    margin-bottom: 10px;
-}
-
-.line {
-    width: 1000px;
-    height: 2px;
-    
-    margin-bottom: 10px;
-    position: absolute;
-    right: -400px;
-    background-color: black;
-    opacity: 0.3;
-}
-
-.checkout-book-details {
-    margin-top: 40px;
-    display: flex;
     flex-direction: column;
-    justify-content: center;
+    justify-self: center;
     align-items: center;
 }
 
-.checkout-book-title {
+.checkout-title {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    text-align: center;
+
+    font-size: 25px;
     font-weight: bold;
-    font-size: 20px;
+    
+    padding: 20px;
+    /* border: 1px solid rgb(78, 77, 77); */
+    margin-top: 20px;
+    border-radius: 10px;
+}
+
+.checkout-items {
+    display: flex;
+    border: 2px solid rgb(150, 148, 148);
+    height: 360px;
+    padding: 5px 100px;
+}
+
+.checkout-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 30px;
+    width: 200px;
+    height: 200px;
+}
+
+.checkout-book-title {
+    font-size: 22px;
+    font-weight: bold;
+}
+
+.checkout-book-author {
+    font-size: 18px;
+    color: rgb(92, 92, 92);
 }
 
 .checkout-book-image {
-    width: 200px;
+    height: 240px;
 }

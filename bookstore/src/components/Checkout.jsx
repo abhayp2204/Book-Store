@@ -48,30 +48,26 @@ function Checkout(props) {
     }, []);
 
     return (
-        <div className="checkout">
-            <h2>Checkout</h2>
-            {cart && cart.map((bookId, index) => {
-                // Find the book in the books array by matching the bookId
-                const book = books.find((book) => book.id === bookId);
-
-                return (
-                    <div className="cart-item" key={index}>
-                        <div className='checkout-msg'>Your Items</div>
-                        <div className='line' />
-                        {book ? (
-                            <div className='checkout-book-details'>
-                                <div className='checkout-book-title'>{book.title}</div>
-                                <div className='checkout-book-author'>Author: {book.author}</div>
-                                <img className='checkout-book-image' src={book.image} alt={book.title} />
-                            </div>
-                        ) : (
-                            'Book not found'
-                        )}
-                    </div>
-                );
-            })}
+        <div className='checkout'>
+            <div className='checkout-title'>Checkout</div>
+            <div className='checkout-items'>
+                {cart && cart.map((bookId, index) => 
+                    <CheckoutItem index={index} books={books} key={bookId} />
+                )}
+            </div>
         </div>
     );
+}
+
+function CheckoutItem(props) {
+    const book = props.books[props.index]
+    return (
+        <div className='checkout-item'>
+            <div className='checkout-book-title'>{book.title}</div>
+            <div className='checkout-book-author'>by {book.author}</div>
+            <img className='checkout-book-image' src={book.image} alt='book' />
+        </div>
+    )
 }
 
 export default Checkout;
