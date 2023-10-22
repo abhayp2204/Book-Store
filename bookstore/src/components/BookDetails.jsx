@@ -4,7 +4,6 @@ import '../css/Book.css';
 function BookDetails({ bookDetails, addToCart }) {
     return (
         <div className='book-details'>
-            {console.log(bookDetails)}
             <p className='book-title'>{bookDetails?.title}</p>
             {bookDetails?.image && (
                 <img className='book-image' src={bookDetails.image} alt={bookDetails.title} />

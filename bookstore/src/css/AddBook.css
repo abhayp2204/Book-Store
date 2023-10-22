@@ -1,3 +1,16 @@
+.add-book {
+    /* height: 971px; */
+    /* background-image: url('../assets/bg3.jpg'); */
+    background-repeat: no-repeat;
+    display: flex;
+    justify-content: center;
+}
+
+.not-admin {
+    font-size: 30px;
+    margin: 30px;
+}
+
 /* AddBook Component */
 .add-book-container {
     display: flex;
