@@ -7,6 +7,8 @@ import 'firebase/compat/firestore';
 import 'firebase/compat/auth';
 import { auth, firestore } from '../firebase';
 
+import Payment from './Payment';
+
 function Checkout(props) {
     const usersRef = firestore.collection('users');
     const booksRef = firestore.collection('books');
@@ -50,24 +52,45 @@ function Checkout(props) {
     return (
         <div className='checkout'>
             <div className='checkout-title'>Checkout</div>
-            <div className='checkout-items'>
-                {cart && cart.map((bookId, index) => 
-                    <CheckoutItem index={index} books={books} key={bookId} />
-                )}
+            <div className='checkout-content'>
+                <div className='checkout-details'>
+                    <form className='checkout-form'>
+                        <div className='checkout-input'>
+                            <label className='checkout-prompt' htmlFor='country'>Country  </label>
+                            <input className='checkout-input' type='text' id='country' name='country' />
+                        </div>
+                        <div className='checkout-input'>
+                            <label className='checkout-prompt' htmlFor='state'>State  </label>
+                            <input className='checkout-input' type='text' id='state' name='state' />
+                        </div>
+                        <div className='checkout-input'>
+                            <label className='checkout-prompt' htmlFor='address'>Address  </label>
+                            <input className='checkout-input' type='text' id='address' name='address' />
+                        </div>
+                    </form>
+                    <Payment /> 
+                </div>
+                <div className='checkout-items'>
+                    {cart &&
+                        cart.map((bookId, index) => (
+                            <CheckoutItem index={index} books={books} key={bookId} />
+                        ))}
+                </div>
             </div>
         </div>
     );
 }
 
 function CheckoutItem(props) {
-    const book = props.books[props.index]
+    const book = props.books[props.index];
+    if (!book) return null;
     return (
         <div className='checkout-item'>
             <div className='checkout-book-title'>{book.title}</div>
             <div className='checkout-book-author'>by {book.author}</div>
             <img className='checkout-book-image' src={book.image} alt='book' />
         </div>
-    )
+    );
 }
 
 export default Checkout;

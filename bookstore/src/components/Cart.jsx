@@ -125,7 +125,7 @@ function Cart(props) {
                         ))}
                     </div>
                     {booksData.length === 0 && <p>Your cart is empty.</p>}
-                    <Link className='checkout-link pop' to='checkout'>Checkout</Link>
+                    <Link className='checkout-link pop' to='/checkout'>Checkout</Link>
                 </div>
             )}
         </div>

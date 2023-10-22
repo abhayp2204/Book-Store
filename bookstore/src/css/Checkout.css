@@ -3,6 +3,14 @@
     flex-direction: column;
     justify-self: center;
     align-items: center;
+    margin: 30px;
+    border-radius: 10px;
+    border: 1px solid rgb(139, 137, 137);
+}
+
+.checkout-content {
+    display: flex;
+    width: 100%;
 }
 
 .checkout-title {
@@ -15,15 +23,14 @@
     font-weight: bold;
     
     padding: 20px;
-    /* border: 1px solid rgb(78, 77, 77); */
-    margin-top: 20px;
+    margin-top: 10px;
     border-radius: 10px;
 }
 
 .checkout-items {
     display: flex;
-    border: 2px solid rgb(150, 148, 148);
     height: 360px;
+    width: 20%;
     padding: 5px 100px;
 }
 
@@ -31,7 +38,6 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    margin-top: 30px;
     width: 200px;
     height: 200px;
 }
@@ -47,5 +53,42 @@
 }
 
 .checkout-book-image {
-    height: 240px;
+    height: 190px;
+}
+
+.checkout-details {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 70%;
+}
+
+.checkout-form {
+    display: flex;
+    flex-direction: column;
+    padding: 10px;
+}
+
+.checkout-input {
+    display: flex; /* This will make prompts and inputs align horizontally. */
+    justify-content: space-between; /* Distributes space evenly between prompts and inputs. */
+    font-size: 20px;
+    margin-bottom: 10px;
+    padding: 4px;
+    border-radius: 10px;
+}
+
+.checkout-input label {
+    width: 30%; /* Adjust the width as needed to align your prompts. */
+    text-align: right; /* Align the prompts to the right. */
+}
+
+.checkout-input input {
+    width: 70%; /* Adjust the width as needed for the input fields. */
+}
+
+.checkout-prompt {
+    margin-top: 5px;
+    margin-right: 14px;
 }
