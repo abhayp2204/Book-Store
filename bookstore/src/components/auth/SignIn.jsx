@@ -45,6 +45,7 @@ function SignIn() {
 
     return (
         <div className="sign-in-container">
+            <div className='welcome'>Welcome to Campus Bookstore!</div>
             <button className="sign-in-btn" onClick={signInWithGoogle}>Sign In With Google</button>
         </div>
     )

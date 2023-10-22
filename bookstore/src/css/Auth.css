@@ -7,3 +7,36 @@
     border: none;
     font-size: 18px;
 }
+
+.sign-in-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 971px;
+    background-image: url('../assets/bg3.jpg');
+    /* background-size: 1020px 1080px; */
+    background-repeat: no-repeat;
+}
+
+.welcome {
+    font-size: 80px;
+    font-weight: bold;
+    background: transparent;
+    color: white;
+}
+
+.sign-in-btn {
+    padding: 25px 40px;
+    border-radius: 40px;
+    font-size: 30px;
+    background-color: black;
+    color: white;
+    border: none;
+    margin: 30px;
+}
+
+.sign-in-btn:hover {
+    cursor: pointer;
+    transform: scale(1.2);
+}

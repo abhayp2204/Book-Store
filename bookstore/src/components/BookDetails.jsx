@@ -7,7 +7,7 @@ function BookDetails({ bookDetails, addToCart }) {
             {console.log(bookDetails)}
             <p className='book-title'>{bookDetails?.title}</p>
             {bookDetails?.image && (
-                <img className='book-image' src={bookDetails.image} alt={bookDetails.title} className='book-image' />
+                <img className='book-image' src={bookDetails.image} alt={bookDetails.title} />
             )}
             <p className='book-author'>by {bookDetails?.author}</p>
             <p className='book-genre'>{bookDetails?.genre}</p>

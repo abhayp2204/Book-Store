@@ -61,7 +61,7 @@ function Books(props) {
             ):
             (
                 books.map((book, key) => (
-                    <Book key={book.id} id={book.id} onAdd={addBook} onDelete={deleteBook} />
+                    <Book key={book.id} id={book.id} />
                 ))
             )}
         </div>

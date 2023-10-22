@@ -14,7 +14,6 @@ const CARD_OPTIONS = {
             fontWeight: "500",
             lineHeight: "50px",
             fontSize: "24px",
-            width: "300px",
         },
         invalid: {
             iconColor: "#ffc7ee",
