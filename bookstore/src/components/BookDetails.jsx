@@ -1,7 +1,67 @@
 import React from 'react';
 import '../css/Book.css';
 
-function BookDetails({ bookDetails, addToCart }) {
+// Firebase
+import firebase from "firebase/compat/app"
+import "firebase/compat/firestore"
+import "firebase/compat/auth"
+import { auth, firestore } from "../firebase"
+
+function BookDetails({ bookDetails, cartCount, updateCartCount }) {
+    const usersRef = firestore.collection('users');
+
+    const addBook = async (bookId) => {
+        const user = auth.currentUser;
+        if (user) {
+            const userRefQuery = usersRef.where('uid', '==', user.uid);
+    
+            // Fetch the user data based on the query
+            userRefQuery.get()
+                .then((querySnapshot) => {
+                    if (!querySnapshot.empty) {
+                        const userDoc = querySnapshot.docs[0];
+                        const userData = userDoc.data();
+                        const currentCart = userData.cart || [];
+    
+                        // Check if the book is already in the cart
+                        const bookIndex = currentCart.findIndex(item => item.bookId === bookId);
+    
+                        if (bookIndex !== -1) {
+                            // Book is in the cart, so increment the count
+                            currentCart[bookIndex].count += 1;
+                        } else {
+                            // Book is not in the cart, so add it with a count of 1
+                            currentCart.push({ bookId, count: 1 });
+                        }
+    
+                        // Update the user's document with the new cart array
+                        userDoc.ref.update({ cart: currentCart })
+                            .then(() => {
+                                console.log(`Book ${bookId} added to the cart for user ${user.uid}`);
+                                alert("Added to Cart");
+                            })
+                            .catch((error) => {
+                                console.error('Error updating user document:', error);
+                            });
+                    }
+                })
+                .catch((error) => {
+                    console.error('Error fetching user details:', error);
+                });
+        }
+    };
+    
+
+    const handleIncrement = () => {
+        updateCartCount(cartCount + 1);
+    };
+
+    const handleDecrement = () => {
+        if (cartCount > 0) {
+            updateCartCount(cartCount - 1);
+        }
+    };
+
     return (
         <div className='book-details'>
             <p className='book-title'>{bookDetails?.title}</p>
@@ -13,12 +73,22 @@ function BookDetails({ bookDetails, addToCart }) {
             <p className='book-desc'>{bookDetails?.description}</p>
             <p className='book-year'>{bookDetails?.publishedYear}</p>
             <p className='book-price'>${bookDetails?.price}</p>
-            <button
-                onClick={() => addToCart(bookDetails.id)} // Pass bookDetails.id to onAdd
-                className="add-book-button"
-            >
-                Add to Cart
-            </button>
+            {cartCount > 0 ? (
+                <div className="cart-controls">
+                    <div className="cart-count">
+                        <button onClick={handleDecrement}>-</button>
+                        {cartCount}
+                        <button onClick={handleIncrement}>+</button>
+                    </div>
+                    <button className="add-book-button">
+                        Add to Cart
+                    </button>
+                </div>
+            ) : (
+                <button onClick={() => addBook(bookDetails.id)} className="add-book-button">
+                    Add to Cart
+                </button>
+            )}
         </div>
     );
 }

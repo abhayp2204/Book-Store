@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom'
-import '../css/Cart.css'
+import { Link } from 'react-router-dom';
+import '../css/Cart.css';
 
 // Firebase
-import firebase from "firebase/compat/app"
-import "firebase/compat/firestore"
-import "firebase/compat/auth"
-import { auth, firestore } from "../firebase"
+import firebase from "firebase/compat/app";
+import "firebase/compat/firestore";
+import "firebase/compat/auth";
+import { auth, firestore } from "../firebase";
 
 function Cart(props) {
     const usersRef = firestore.collection('users');
@@ -15,6 +15,7 @@ function Cart(props) {
     const [booksData, setBooksData] = useState([]); // State to store book data
     const [loading, setLoading] = useState(true); // State to track loading status
 
+    // First useEffect to initialize data
     useEffect(() => {
         const user = auth.currentUser;
         if (!user) return;
@@ -30,29 +31,7 @@ function Cart(props) {
 
                     // Set the user's cart items in the state
                     setCartItems(userCart);
-
-                    // Fetch book details for the items in the cart
-                    const bookPromises = userCart.map(bookId => {
-                        return booksRef.where('id', '==', bookId).get();
-                    });
-
-                    Promise.all(bookPromises)
-                        .then(bookSnapshots => {
-                            const booksData = bookSnapshots.map(bookSnapshot => {
-                                const matchingBook = bookSnapshot.docs[0];
-                                return {
-                                    id: matchingBook.id,
-                                    ...matchingBook.data(),
-                                };
-                            });
-                            setBooksData(booksData);
-                        })
-                        .catch(error => {
-                            console.error('Error fetching book data:', error);
-                        })
-                        .finally(() => {
-                            setLoading(false); // Set loading to false once the data is fetched
-                        });
+                    setLoading(false); // Set loading to false once the data is fetched
                 } else {
                     // Handle the case where the user document doesn't exist
                     console.log("User document doesn't exist.");
@@ -62,43 +41,38 @@ function Cart(props) {
             .catch((error) => {
                 console.error('Error fetching user cart:', error);
             });
-    }, [cartItems]);
+    }, []);
 
-    const removeFromCart = (bookId) => {
-        // Create a copy of the current cart items array without the item to be removed.
-        const updatedCart = cartItems.filter(itemId => itemId !== bookId);
-    
-        // Remove the item from Firestore.
-        const user = auth.currentUser;
-        if (user) {
-            usersRef.where('uid', '==', user.uid).get()  // Query based on user's UID
-            .then(snapshot => {
-                if (!snapshot.empty) {
-                    const userDoc = snapshot.docs[0];
-                    userDoc.ref.update({
-                        cart: updatedCart,
-                    })
-                    .then(() => {
-                        console.log("Item removed from cart and Firestore.");
-                    })
-                    .catch(error => {
-                        console.error('Error removing item from cart and Firestore:', error);
-                    });
-                }
+    // Second useEffect to update book counts when userCart changes
+    useEffect(() => {
+        if (cartItems.length === 0) return;
+
+        // Fetch book details for the items in the cart
+        const bookPromises = cartItems.map(cartItem => {
+            return booksRef.where('id', '==', cartItem.bookId).get();
+        });
+
+        Promise.all(bookPromises)
+            .then(bookSnapshots => {
+                const booksData = bookSnapshots.map(bookSnapshot => {
+                    const matchingBook = bookSnapshot.docs[0];
+                    return {
+                        id: matchingBook.id,
+                        ...matchingBook.data(),
+                        count: cartItems.find(item => {
+                            return item.bookId === matchingBook.data().id
+                        })?.count || 1,
+                    };
+                });
+                setBooksData(booksData);
             })
             .catch(error => {
-                console.error('Error fetching user document:', error);
+                console.error('Error fetching book data:', error);
             });
-    
-            // Update the state with the updated cart items.
-            setCartItems(updatedCart);
-        }
-    };
-    
-    
+    }, [cartItems]);
 
     // Calculate the total price
-    const totalPrice = booksData.reduce((total, book) => total + (book.price || 0), 0);
+    const totalPrice = booksData.reduce((total, book) => total + (book.price || 0) * book.count, 0);
 
     return (
         <div className="cart">
@@ -119,7 +93,7 @@ function Cart(props) {
                                 <p className='book-genre'>{book?.genre}</p>
                                 {/* <p className='book-desc'>{book?.description}</p> */}
                                 <p className='book-year'>{book?.publishedYear}</p>
-                                <p className='book-price'>${book?.price}</p>
+                                <p className='book-price'>${book?.price} (x{book.count})</p>
                                 <button className='remove-button' onClick={() => removeFromCart(book.id)}>Remove</button>
                             </div>
                         ))}

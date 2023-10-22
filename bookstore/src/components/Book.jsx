@@ -14,11 +14,12 @@ function Book(props) {
 
     const [hovered, setHovered] = useState(false);
     const [bookDetails, setBookDetails] = useState(null);
-
+    const [cartCount, setCartCount] = useState(0); // New state to track the count of books in the cart
 
     useEffect(() => {
         if (props.id) {
             fetchBookDetails(props.id);
+            fetchCartCount(props.id); // Fetch the count of this book in the cart
         }
     }, [props.id]);
 
@@ -39,7 +40,7 @@ function Book(props) {
             });
     };
 
-    const addBook = async (bookId) => {
+    const fetchCartCount = async (bookId) => {
         const user = auth.currentUser;
         if (user) {
             const userRefQuery = usersRef.where('uid', '==', user.uid);
@@ -50,26 +51,11 @@ function Book(props) {
                     if (!querySnapshot.empty) {
                         const userDoc = querySnapshot.docs[0];
                         const userData = userDoc.data();
-                        const currentCart = userData.cart || []; // Get the current cart, initialize as an empty array if it doesn't exist
+                        const currentCart = userData.cart || [];
     
-                        // Append the bookId to the cart array if it's not already there
-                        if (!currentCart.includes(bookId)) {
-                            currentCart.push(bookId);
-    
-                            // Update the user's document with the new cart array
-                            userDoc.ref.update({ cart: currentCart })
-                                .then(() => {
-                                    console.log(`Book ${bookId} added to the cart for user ${user.uid}`);
-                                    alert("Added to Cart")
-                                })
-                                .catch((error) => {
-                                    console.error('Error updating user document:', error);
-                                });
-                        } else {
-                            console.log(`Book ${bookId} is already in the cart.`);
-                        }
-                    } else {
-                        console.log('User document not found');
+                        // Count the number of occurrences of the book in the cart
+                        const count = currentCart.filter(id => id === bookId).length;
+                        setCartCount(count);
                     }
                 })
                 .catch((error) => {
@@ -77,11 +63,21 @@ function Book(props) {
                 });
         }
     };
+
+    const updateCartCount = (count) => {
+        setCartCount(count);
+    };
+
     
 
     return (
-        <div className='books-display0' >
-            <BookDetails bookDetails={bookDetails} addToCart={addBook} />
+        <div className='books-display' >
+            <BookDetails
+                bookDetails={bookDetails}
+                // addToCart={addBook}
+                cartCount={cartCount}
+                updateCartCount={updateCartCount}
+            />
         </div>
     );
 }
