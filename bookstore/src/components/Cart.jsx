@@ -11,9 +11,60 @@ import { auth, firestore } from "../firebase";
 function Cart(props) {
     const usersRef = firestore.collection('users');
     const booksRef = firestore.collection('books');
-    const [cartItems, setCartItems] = useState([]); // State to store cart items
-    const [booksData, setBooksData] = useState([]); // State to store book data
-    const [loading, setLoading] = useState(true); // State to track loading status
+
+    const [cartItems, setCartItems] = useState([])
+    const [booksData, setBooksData] = useState([])
+    const [loading, setLoading] = useState(true);
+
+
+    const updateCartCount = (bookId, newCount) => {
+        // Ensure the user is authenticated
+        const user = auth.currentUser;
+        if (user) {
+            const userRefQuery = usersRef.where('uid', '==', user.uid);
+    
+            // Fetch the user data based on the query
+            userRefQuery.get()
+                .then((querySnapshot) => {
+                    if (!querySnapshot.empty) {
+                        const userDoc = querySnapshot.docs[0];
+                        const userData = userDoc.data();
+                        const currentCart = userData.cart || [];
+    
+                        // Find the index of the book in the cart
+                        const index = currentCart.findIndex(cartItem => cartItem.bookId === bookId);
+    
+                        if (newCount === 0) {
+                            if (index !== -1) {
+                                currentCart.splice(index, 1);
+                            }
+                        } else {
+                            // If the book is in the cart, update its count
+                            if (index !== -1) {
+                                currentCart[index].count = newCount;
+                            } else {
+                                // If the book is not in the cart, add it with the new count
+                                currentCart.push({ bookId: bookId, count: newCount });
+                            }
+                        }
+    
+                        // Update the user's cart in Firestore using the user document reference
+                        userDoc.ref.update({ cart: currentCart })
+                            .then(() => {
+                                setCartItems(currentCart)
+                                console.log('Cart count updated in Firestore');
+                            })
+                            .catch((error) => {
+                                console.error('Error updating cart in Firestore:', error);
+                            });
+                    }
+                })
+                .catch((error) => {
+                    console.error('Error fetching user details:', error);
+                });
+        }
+    };
+    
 
     // First useEffect to initialize data
     useEffect(() => {
@@ -94,6 +145,11 @@ function Cart(props) {
                                 {/* <p className='book-desc'>{book?.description}</p> */}
                                 <p className='book-year'>{book?.publishedYear}</p>
                                 <p className='book-price'>${book?.price} (x{book.count})</p>
+                                <div className="count-buttons">
+                                    <button onClick={() => updateCartCount(book.id, book.count - 1)}>-</button>
+                                    <span>{book.count}</span>
+                                    <button onClick={() => updateCartCount(book.id, book.count + 1)}>+</button>
+                                </div>
                                 <button className='remove-button' onClick={() => removeFromCart(book.id)}>Remove</button>
                             </div>
                         ))}

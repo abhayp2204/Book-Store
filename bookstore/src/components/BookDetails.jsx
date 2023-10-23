@@ -68,7 +68,6 @@ function BookDetails({ bookDetails, updateCartCount }) {
                         userDoc.ref.update({ cart: currentCart })
                             .then(() => {
                                 console.log(`Book ${bookId} added to the cart for user ${user.uid}`);
-                                alert("Added to Cart");
                             })
                             .catch((error) => {
                                 console.error('Error updating user document:', error);
