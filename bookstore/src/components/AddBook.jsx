@@ -92,8 +92,6 @@ function AddBook() {
             year: bookYear
         });
 
-        alert("Book has been added!")
-
         // Reset the input fields
         setBookTitle('');
         setBookAuthor('');

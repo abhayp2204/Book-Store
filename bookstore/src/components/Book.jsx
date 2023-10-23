@@ -54,7 +54,13 @@ function Book(props) {
                         const currentCart = userData.cart || [];
     
                         // Count the number of occurrences of the book in the cart
-                        const count = currentCart.filter(id => id === bookId).length;
+                        const count = currentCart.reduce((total, cartItem) => {
+                            if (cartItem.bookId === bookId) {
+                                return total + cartItem.count;
+                            }
+                            return total;
+                        }, 0);
+                    
                         setCartCount(count);
                     }
                 })
@@ -64,9 +70,58 @@ function Book(props) {
         }
     };
 
-    const updateCartCount = (count) => {
-        setCartCount(count);
+    const updateCartCount = (newCount) => {
+        // Ensure the user is authenticated
+        const user = auth.currentUser;
+        if (user) {
+            const userRefQuery = usersRef.where('uid', '==', user.uid);
+    
+            // Fetch the user data based on the query
+            userRefQuery.get()
+                .then((querySnapshot) => {
+                    if (!querySnapshot.empty) {
+                        const userDoc = querySnapshot.docs[0];
+                        const userData = userDoc.data();
+                        const currentCart = userData.cart || [];
+    
+                        // Find the index of the book in the cart
+                        const index = currentCart.findIndex(cartItem => cartItem.bookId === props.id);
+    
+                        if (newCount === 0) {
+                            // If newCount is 0, remove the book from the cart
+                            if (index !== -1) {
+                                currentCart.splice(index, 1); // Remove the item from the array
+                            }
+                        } else {
+                            // If the book is in the cart, update its count
+                            if (index !== -1) {
+                                currentCart[index].count = newCount;
+                            } else {
+                                // If the book is not in the cart, add it with the new count
+                                currentCart.push({ bookId: props.id, count: newCount });
+                            }
+                        }
+    
+                        // Update the user's cart in Firestore using the user document reference
+                        userDoc.ref.update({ cart: currentCart })
+                            .then(() => {
+                                // Cart count updated in Firestore
+                                setCartCount(newCount);
+                                console.log('Cart count updated in Firestore');
+                            })
+                            .catch((error) => {
+                                console.error('Error updating cart in Firestore:', error);
+                            });
+                    }
+                })
+                .catch((error) => {
+                    console.error('Error fetching user details:', error);
+                });
+        }
     };
+    
+    
+    
 
     
 
@@ -74,7 +129,6 @@ function Book(props) {
         <div className='books-display' >
             <BookDetails
                 bookDetails={bookDetails}
-                // addToCart={addBook}
                 cartCount={cartCount}
                 updateCartCount={updateCartCount}
             />

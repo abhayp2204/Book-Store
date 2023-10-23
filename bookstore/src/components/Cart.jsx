@@ -87,7 +87,7 @@ function Cart(props) {
                             <div className='book-details-cart' key={index}>
                                 <p className='book-title'>{book?.title}</p>
                                 {book?.image && (
-                                    <img className='book-image' src={book.image} alt={book.title} className='book-image' />
+                                    <img className='book-image' src={book.image} alt={book.title} />
                                 )}
                                 <p className='book-author'>by {book?.author}</p>
                                 <p className='book-genre'>{book?.genre}</p>
