@@ -10,6 +10,10 @@
     text-align: center;
 }
 
+.cart-books {
+    display: flex;
+}
+
 .cart-title {
     font-weight: bold;
     font-size: 25px;
@@ -72,17 +76,37 @@
 }
 
 
-.remove-button:hover {
-    transform: scale(1.07);
+.cart-counter {
+    background-color: #95ed07;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 200px;
+    padding: 0px 30px;
+    border-radius: 10px;
+    margin: 10px;
 }
-.remove-button {
-    margin-top: 10px;
-    bottom: 5px; /* Adjusted to 5px from the bottom */
-    background-color: #FF0035;
-    border-radius: 20px;
-    padding: 10px 20px;
-    border: none;
-    font-size: 16px;
+
+.counter-count {
+    background: transparent;
+    margin: 10px 80px;
+    font-size: 20px;
+}
+
+.counter-button {
+    background-color: black;
+    color: white;
     font-weight: bold;
-    opacity: 0.9;
+    border: none;
+    font-size: 14px;
+    padding: 5px 10px;
+    border-radius: 100px;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.counter-button:hover {
+    cursor: pointer;
 }
