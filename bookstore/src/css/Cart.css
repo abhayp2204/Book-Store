@@ -2,26 +2,36 @@
     display: flex;
     flex-direction: column;
     align-items: center;
+    height: 929px;
 
     padding: 20px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    margin: 20px;
     text-align: center;
+
+    background-image: url('../assets/background/bg9.jpg');
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+.cart-container {
+    background: transparent;
 }
 
 .cart-books {
     display: flex;
+    background: transparent;
 }
 
 .cart-title {
+    background: transparent;
     font-weight: bold;
     font-size: 25px;
-    margin: 10px;
+    color: white;
+    margin-top: 70px;
+    margin-bottom: 20px;
 }
 
 .cart-price {
-    background-color: #383737;
+    background-color: #2b2a2a;
     font-size: 18px;
     font-weight: bold;
     color: #aef739;
@@ -54,17 +64,17 @@
 }
 
 .checkout-link {
-    border: 2px solid rgb(188, 185, 185);
+    border: none;
     font-size: 20px;
     color: #383737;
     font-weight: bold;
     display: inline-block;
     margin: 10px;
     width: 100px;
-    border-radius: 10px;
+    border-radius: 30px;
     background-color: greenyellow;
     text-decoration: none;
-    padding: 20px;
+    padding: 15px 20px;
 }
 
 .checkout-link:hover {

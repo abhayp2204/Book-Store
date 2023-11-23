@@ -3,47 +3,69 @@
     flex-direction: column;
     justify-self: center;
     align-items: center;
-    margin: 30px;
-    border-radius: 10px;
-    border: 1px solid rgb(139, 137, 137);
+    margin-top: 30px;
+    height: 939px;
+
+    background-image: url('../assets/background/bg9.jpg');
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+.line {
+    width: 90%;
+    height: 2px;
+    background-color: rgb(175, 171, 171);
+    margin-bottom: 20px;
 }
 
 .checkout-content {
     display: flex;
     width: 100%;
+    background: transparent;
 }
+
 
 .checkout-title {
     display: flex;
     flex-direction: column;
     justify-content: center;
     text-align: center;
-
-    font-size: 25px;
+    background: transparent;
+    color: white;
+    
+    font-size: 50px;
     font-weight: bold;
     
     padding: 20px;
-    margin-top: 10px;
+    margin-top: 40px;
     border-radius: 10px;
 }
 
 .checkout-items {
+    background: transparent;
     display: flex;
     height: 360px;
-    width: 20%;
+    /* width: 20%; */
     padding: 5px 100px;
+    margin-right: 100px;
 }
 
 .checkout-item {
+    background-color: rgb(99, 96, 96);
     display: flex;
     flex-direction: column;
     align-items: center;
-    width: 200px;
-    height: 200px;
+    width: 250px;
+    padding: 20px;
+    border-radius: 10px;
+    /* height: 200px; */
+    margin-right: 40px;
+    /* opacity: 0.7; */
 }
 
 .checkout-book-title {
-    font-size: 22px;
+    background: transparent;
+    font-size: 18px;
     font-weight: bold;
 }
 
@@ -61,13 +83,17 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    width: 70%;
+    width: 100%;
+    padding: 20px;
+    background-color: rgb(24, 22, 26);
+    /* margin-left: 100px; */
 }
 
 .checkout-form {
     display: flex;
     flex-direction: column;
     padding: 10px;
+    background: transparent;
 }
 
 .checkout-input {
@@ -77,6 +103,7 @@
     margin-bottom: 10px;
     padding: 4px;
     border-radius: 10px;
+    background: transparent;
 }
 
 .checkout-input label {
@@ -85,10 +112,16 @@
 }
 
 .checkout-input input {
-    width: 70%; /* Adjust the width as needed for the input fields. */
+    width: 70%;
+    border: 1px solid white;
+    color: white;
+    padding: 10px;
+    font-size: 15px;
 }
 
 .checkout-prompt {
+    color: white;
+    background: transparent;
     margin-top: 5px;
     margin-right: 14px;
 }

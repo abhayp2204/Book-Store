@@ -27,6 +27,8 @@ function App() {
         return (<SignIn />)
     }
 
+    console.log("Logged in as : ", user.displayName)
+
     return (
         <Router>
             <Navbar />
@@ -36,7 +38,7 @@ function App() {
                     element={<Home />}
                 />
                 <Route
-                    path='/view'
+                    path='/home'
                     element={<Books />}
                 />
                 <Route

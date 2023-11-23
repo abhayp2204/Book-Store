@@ -3,7 +3,18 @@
     background-color: white;
     color: black;
     font-family: Arial, Helvetica, sans-serif;
-    /* font-size: 22px; */
+    /* overflow-x: hidden; */
+}
+
+::-webkit-scrollbar {
+    width: 0.6vw;
+}
+::-webkit-scrollbar-thumb{
+    background-color: white;
+    border-radius: 8px;
+}
+::-webkit-scrollbar-track {
+    background-color: black;
 }
 
 .linkstyle {

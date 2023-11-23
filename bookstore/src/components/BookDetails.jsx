@@ -105,12 +105,10 @@ function BookDetails({ bookDetails, updateCartCount }) {
             <p className='book-year'>{bookDetails?.publishedYear}</p>
             <p className='book-price'>${bookDetails?.price}</p>
             {cartCount > 0 ? (
-                <div className="cart-controls">
-                    <div className="cart-count">
-                        <button onClick={handleDecrement}>-</button>
-                        {cartCount}
-                        <button onClick={handleIncrement}>+</button>
-                    </div>
+                <div className="cart-counter2">
+                    <button className='counter-button2' onClick={handleDecrement}>-</button>
+                    <div className='counter-count'>{cartCount}</div>
+                    <button className='counter-button2' onClick={handleIncrement}>+</button>
                 </div>
             ) : (
                 <button onClick={() => addBook(bookDetails.id)} className="add-book-button">

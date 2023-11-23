@@ -14,9 +14,9 @@ function Navbar() {
     const [isAdmin, setIsAdmin] = useState(false); // Track admin status
 
     useEffect(() => {
-        // Check if the user's uid is in the admin collection
         const user = auth.currentUser;
-        const curUid = "\"" + user.uid + "\""
+        const curUid = user.uid;
+    
         if (user) {
             adminsRef.where('uid', '==', curUid).get()
                 .then((querySnapshot) => {
@@ -31,14 +31,15 @@ function Navbar() {
                 });
         }
     }, []);
+    
 
 
     return (
         <div className='navbar'>
-            <Link to='/view' className='nav-link'>View Books</Link>
-            {isAdmin && <Link to='/add' className='nav-link'>Add Books</Link>}
+            <Link to='/home' className='nav-link'>Home</Link>
             <Link to='/cart' className='nav-link'>Cart</Link>
             <Link to='/checkout' className='nav-link'>Checkout</Link>
+            {isAdmin && <Link to='/add' className='nav-link-admin'>Add Product</Link>}
             <SignOut />
         </div>
     )

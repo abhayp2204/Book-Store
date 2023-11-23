@@ -52,6 +52,7 @@ function Checkout(props) {
     return (
         <div className='checkout'>
             <div className='checkout-title'>Checkout</div>
+            {/* <div className='line' /> */}
             <div className='checkout-content'>
                 <div className='checkout-details'>
                     <form className='checkout-form'>
@@ -70,12 +71,12 @@ function Checkout(props) {
                     </form>
                     <Payment /> 
                 </div>
-                <div className='checkout-items'>
+                {/* <div className='checkout-items'>
                     {cart &&
                         cart.map((bookId, index) => (
                             <CheckoutItem index={index} books={books} key={bookId} />
                         ))}
-                </div>
+                </div> */}
             </div>
         </div>
     );

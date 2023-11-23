@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import '../css/AddBook.css';
+import '../css/AddProduct.css';
 
 // Firebase
 import 'firebase/compat/firestore';
@@ -7,27 +7,26 @@ import 'firebase/compat/auth';
 import { auth, firestore, storage } from "../firebase"
 import { ref, uploadBytesResumable, getDownloadURL } from 'firebase/storage'
 
-function AddBook() {
-    const booksRef = firestore.collection('books')
+function AddProduct() {
     const adminsRef = firestore.collection('admin')
+    const productsRef = firestore.collection('products');
 
-    const [bookTitle, setBookTitle] = useState('');
-    const [bookAuthor, setBookAuthor] = useState('');
-    const [bookImage, setBookImage] = useState('');
-    const [bookDescription, setBookDescription] = useState('');
-    const [bookPages, setBookPages] = useState(0);
-    const [bookPrice, setBookPrice] = useState(0);
-    const [bookGenre, setBookGenre] = useState('');
-    const [bookYear, setBookYear] = useState('');
+    const [productName, setProductName] = useState('');
+    const [productImage, setProductImage] = useState('');
+    const [productPrice, setProductPrice] = useState(0);
+
+    const [customAttributes, setCustomAttributes] = useState([]);
 
     const [imageFile, setImageFile] = useState(null);
     const [imageURL, setImageURL] = useState('');
 
-    const [isAdmin, setIsAdmin] = useState(false); // Track admin status
+    const [isAdmin, setIsAdmin] = useState(false);
+
     useEffect(() => {
         // Check if the user's uid is in the admin collection
-        const user = auth.currentUser;
-        const curUid = "\"" + user.uid + "\""
+        const user = auth.currentUser
+        const curUid = user.uid
+        console.log(curUid)
         if (user) {
             adminsRef.where('uid', '==', curUid).get()
                 .then((querySnapshot) => {
@@ -42,10 +41,6 @@ function AddBook() {
                 });
         }
     }, []);
-    
-    
-    
-    
 
     const handleImageChange = (e) => {
         const selectedFile = e.target.files[0];
@@ -54,7 +49,7 @@ function AddBook() {
 
     const handleImageUpload = () => {
         if (imageFile) {
-            const storageRef = ref(storage, `/bookImages/${imageFile.name}`);
+            const storageRef = ref(storage, `/productImages/${imageFile.name}`);
             const uploadTask = uploadBytesResumable(storageRef, imageFile);
 
             uploadTask.then((snapshot) => {
@@ -68,127 +63,109 @@ function AddBook() {
         } else {
             console.error('No image file selected.');
         }
-    };
-
-    function generateCustomBookId() {
-        const timestamp = new Date().getTime();
-        const random = Math.floor(Math.random() * 1000000);
-
-        return `${timestamp}-${random}`;
     }
 
-    const addBook = async (e) => {
+    const addAttribute = () => {
+        setCustomAttributes([...customAttributes, { name: '', value: '' }]);
+    }
+
+    const removeAttribute = (index) => {
+        const updatedAttributes = [...customAttributes];
+        updatedAttributes.splice(index, 1);
+        setCustomAttributes(updatedAttributes);
+    }
+
+    const handleAttributeChange = (index, attributeName, attributeValue) => {
+        const updatedAttributes = [...customAttributes];
+        updatedAttributes[index] = { name: attributeName, value: attributeValue };
+        setCustomAttributes(updatedAttributes);
+    }
+
+    const addProduct = async (e) => {
         e.preventDefault();
 
-        await booksRef.add({
-            id: generateCustomBookId(),
-            title: bookTitle,
-            author: bookAuthor,
-            image: imageURL,
-            description: bookDescription,
-            pages: bookPages,
-            price: bookPrice,
-            genre: bookGenre,
-            year: bookYear
+        const attributesObject = {};
+        customAttributes.forEach((attr) => {
+            if (attr.name && attr.value) {
+                attributesObject[attr.name] = attr.value;
+            }
         });
 
-        // Reset the input fields
-        setBookTitle('');
-        setBookAuthor('');
-        setBookImage('');
-        setBookDescription('');
-        setBookPages(0);
-        setBookPrice(0);
-        setBookGenre('');
-        setBookYear('');
+        const newProduct = {
+            title: productName,
+            image: imageURL,
+            price: productPrice,
+            customAttributes: attributesObject,
+        };
+
+        await productsRef.add(newProduct);
+
+        setProductName('');
+        setProductImage('');
+        setProductPrice(0);
+        setCustomAttributes([]);
     }
 
     return (
-        <div className='add-book'>
+        <div className='add-product'>
             {isAdmin && (
-                <div className='add-book-container'>
-                    <div className='book-input book-name'>
+                <div className='add-product-container'>
+                    <div className='product-input product-name'>
                         <div className='prompt'>Title</div>
                         <input
-                            className='add-book input-book-name'
-                            value={bookTitle}
-                            onChange={(e) => setBookTitle(e.target.value)}
-                            placeholder='Harry Potter and the Chamber of Secrets'
+                            className='add-product input-product-name'
+                            value={productName}
+                            onChange={(e) => setProductName(e.target.value)}
+                            placeholder='Product Name'
                         />
                     </div>
-                    <div className='book-input book-author-input'>
-                        <div className='prompt'>Author</div>
-                        <input
-                            className='add-book input-book-author'
-                            value={bookAuthor}
-                            onChange={(e) => setBookAuthor(e.target.value)}
-                            placeholder='JK Rowling'
-                        />
-                    </div>
-                    <div className='book-input book-image-input'>
+                    <div className='product-input product-image-input'>
                         <div className='prompt'>Image Upload</div>
                         <input
                             type='file'
                             accept='image/*'
-                            className='add-book input-book-image'
+                            className='add-product input-product-image'
                             onChange={handleImageChange}
                         />
-                        <button className='upload-book' onClick={handleImageUpload}>
+                        <button className='upload-product' onClick={handleImageUpload}>
                             Upload Image
                         </button>
                         {imageURL && (
-                            <img src={imageURL} alt='Book Cover' className='uploaded-image' />
+                            <img src={imageURL} alt='Product Image' className='uploaded-image' />
                         )}
                     </div>
-
-                    <div className='book-input book-description'>
-                        <div className='prompt'>Description</div>
-                        <textarea
-                            className='add-book input-book-description'
-                            value={bookDescription}
-                            onChange={(e) => setBookDescription(e.target.value)}
-                            placeholder='A brief introduction to the book'
-                        />
-                    </div>
-                    <div className='book-input book-pages'>
-                        <div className='prompt'>Number of Pages</div>
-                        <input
-                            className='add-book input-book-pages'
-                            type='number'
-                            value={bookPages}
-                            onChange={(e) => setBookPages(parseInt(e.target.value, 10))}
-                            placeholder='Number of Pages'
-                        />
-                    </div>
-                    <div className='book-input book-price'>
+                    <div className='product-input product-price'>
                         <div className='prompt'>Price</div>
                         <input
-                            className='add-book input-book-price'
+                            className='add-product input-product-price'
                             type='number'
-                            value={bookPrice}
-                            onChange={(e) => setBookPrice(parseFloat(e.target.value))}
+                            value={productPrice}
+                            onChange={(e) => setProductPrice(parseFloat(e.target.value))}
                             placeholder='Price'
                         />
                     </div>
-                    <div className='book-input book-genre'>
-                        <div className='prompt'>Genre</div>
-                        <input
-                            className='add-book input-book-genre'
-                            value={bookGenre}
-                            onChange={(e) => setBookGenre(e.target.value)}
-                            placeholder='Fantasy, Science Fiction, etc.'
-                        />
+                    <div className='product-input product-custom'>
+                        <div className='prompt'>Custom Attributes</div>
+                        {customAttributes.map((attr, index) => (
+                            <div key={index} className='attribute-input'>
+                                <input
+                                    className='add-product input-custom-name'
+                                    value={attr.name}
+                                    onChange={(e) => handleAttributeChange(index, e.target.value, attr.value)}
+                                    placeholder='Attribute Name'
+                                />
+                                <input
+                                    className='add-product input-custom-value'
+                                    value={attr.value}
+                                    onChange={(e) => handleAttributeChange(index, attr.name, e.target.value)}
+                                    placeholder='Attribute Value'
+                                />
+                                <button className='remove-attribute-button' onClick={() => removeAttribute(index)}>Remove</button>
+                            </div>
+                        ))}
+                        <button className='add-attribute-button' onClick={addAttribute}>Add Attribute</button>
                     </div>
-                    <div className='book-input book-year'>
-                        <div className='prompt'>Year</div>
-                        <input
-                            className='add-book input-book-year'
-                            value={bookYear}
-                            onChange={(e) => setBookYear(e.target.value)}
-                            placeholder='Publication year'
-                        />
-                    </div>
-                    <button className='add-book-button' onClick={(e) => addBook(e)}>
+                    <button className='add-product-button' onClick={(e) => addProduct(e)}>
                         Add
                     </button>
                 </div>
@@ -197,4 +174,4 @@ function AddBook() {
     );
 }
 
-export default AddBook;
+export default AddProduct;

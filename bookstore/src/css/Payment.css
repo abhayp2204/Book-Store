@@ -3,6 +3,7 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    background: transparent;
 }
 
 .form-group {
@@ -21,7 +22,7 @@
 .base {
     background-color: #7795f8 !important;
     /* icon-color: #c4f0ff !important; */
-    color: white !important;
+    /* color: white !important; */
     font-weight: 500 !important;
     font-size: 24px !important;
     width: 300px !important;
