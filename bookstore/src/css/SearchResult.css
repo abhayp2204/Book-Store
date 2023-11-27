@@ -1,6 +1,8 @@
 .search-result {
-    padding: 10px 20px;
+    padding: 12px 20px;
     font-size: 18px;
+    width: 93%;
+    /* background-color: black; */
 }
 
 .search-result:hover {

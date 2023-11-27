@@ -2,7 +2,7 @@
     width: 100%;
     background: transparent;
     background-color: black;
-    background-image: url('../assets/bg4.jpg');
+    /* background-image: url('../assets/bg4.jpg'); */
     display: flex;
     /* opacity: 1; */
     position: fixed;

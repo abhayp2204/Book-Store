@@ -5,22 +5,24 @@ import "../css/SearchBar.css";
 
 function SearchBar({ setResults }) {
     const [input, setInput] = useState("");
+    // const url = "https://jsonplaceholder.typicode.com/users"
+    const url = "https://fakestoreapi.com/products/"
 
     const fetchData = (value) => {
-        fetch("https://jsonplaceholder.typicode.com/users")
-        .then((response) => response.json())
-        .then((json) => {
-            console.log(json)
-            const results = json.filter((user) => {
-            return (
-                value &&
-                user &&
-                user.name &&
-                user.name.toLowerCase().includes(value)
-            );
+        fetch(url)
+            .then((response) => response.json())
+            .then((json) => {
+                console.log(json)
+                const results = json.filter((product) => {
+                    return (
+                        value &&
+                        product &&
+                        product.title &&
+                        product.title.toLowerCase().includes(value)
+                    );
+                });
+                setResults(results);
             });
-            setResults(results);
-        });
     };
 
     const handleChange = (value) => {

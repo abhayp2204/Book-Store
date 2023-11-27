@@ -1,5 +1,6 @@
 .home {
     margin-top: 10px;
+    background-color: #C1292E;
 }
 
 .dmy-tab-container {
@@ -19,6 +20,7 @@
     text-align: center;
     transition: 300ms ease-in-out;
 }
+
 .dmy:hover {
     cursor: pointer;
     opacity: 0.4;
