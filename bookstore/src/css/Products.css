@@ -1,0 +1,44 @@
+.products-container {
+    margin-top: 100px;
+    max-width: 800px;
+    padding: 20px;
+}
+
+.products-list {
+    list-style: none;
+    padding: 0;
+}
+
+.products-list li {
+    margin-bottom: 10px;
+    border: 1px solid #ddd;
+    padding: 20px;
+    border-radius: 5px;
+    background-color: rgb(231, 231, 231);
+}
+
+.product-details {
+    display: flex;
+    justify-content: space-between;
+    background: transparent;
+}
+
+.product-name {
+    font-weight: bold;
+    background: transparent;
+}
+
+.product-price {
+    font-weight: bold;
+    background: transparent;
+}
+
+.vendor-name {
+    font-weight: bold;
+    background: transparent;
+}
+
+h1 {
+    color: #333;
+    background: transparent;
+}
