@@ -1,10 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import '../css/Shop.css';
 import { auth, firestore, storage } from "../firebase";
 import { ref, uploadBytesResumable, getDownloadURL } from 'firebase/storage';
+import '../css/Shop.css';
 
 function generateItemId() {
-    // Generate a random 6-character alphanumeric string
     return 'item#' + Math.random().toString(36).substr(2, 6);
 }
 
@@ -18,15 +17,16 @@ function Shop() {
         description: '',
     });
     const [items, setItems] = useState([]);
+    const [filteredItems, setFilteredItems] = useState([]);
     const [isAddItemPopupOpen, setIsAddItemPopupOpen] = useState(false);
     const [newItemName, setNewItemName] = useState('');
     const [newItemPrice, setNewItemPrice] = useState('');
-    const [imageFile, setImageFile] = useState(null);
+    const [imageFile, setImageFile] = useState('');
+    const [searchTerm, setSearchTerm] = useState('');
 
     const usersRef = firestore.collection('users');
 
     useEffect(() => {
-        // Fetch vendor details and items from Firestore
         const fetchData = async () => {
             try {
                 const userQuery = await usersRef.where('uid', '==', curUid).get();
@@ -49,8 +49,16 @@ function Shop() {
         fetchData();
     }, [curUid]);
 
+    useEffect(() => {
+        // Filter items based on the search term
+        const filtered = items.filter(item =>
+            item.name.toLowerCase().includes(searchTerm.toLowerCase())
+        );
+
+        setFilteredItems(filtered);
+    }, [items, searchTerm]);
+
     const handleAddItemClick = () => {
-        // Open the Add Item popup
         setIsAddItemPopupOpen(true);
     };
 
@@ -66,20 +74,16 @@ function Shop() {
             const uploadTask = uploadBytesResumable(storageRef, imageFile);
 
             try {
-                const snapshot = await uploadTask;
+                await uploadTask;
                 console.log('Image uploaded successfully.');
 
                 const downloadURL = await getDownloadURL(storageRef);
 
-                // Include the imageURL in the new item data
                 newItem.imageURL = downloadURL;
 
             } catch (error) {
                 console.error('Error uploading image: ', error);
             }
-        } else {
-            // Continue without an image if no image is selected
-            // ...
         }
 
         try {
@@ -108,7 +112,6 @@ function Shop() {
         }
     };
 
-
     return (
         <div className='shop-container'>
             <div className={`shop-details ${isAddItemPopupOpen ? 'popup-open' : ''}`}>
@@ -118,21 +121,28 @@ function Shop() {
             </div>
 
             <div className={`items-list ${isAddItemPopupOpen ? 'popup-open' : ''}`}>
-                <div className='your-items'>Your Items:</div>
-                <ul>
-                    {items.map((item, index) => (
+                <div className='your-items'>
+                    Your Items:
+                    <input
+                        type='text'
+                        placeholder='Search items...'
+                        value={searchTerm}
+                        onChange={(e) => setSearchTerm(e.target.value)}
+                    />
+                </div>
+                <div className='shop-item-container'>
+                    {filteredItems.map((item, index) => (
                         <div className='item-details' key={index}>
                             <div className='item-name'>{item.name}</div>
                             <div className='item-price'>${item.price}</div>
                             {item.imageURL && <img src={item.imageURL} alt={item.name} />}
                         </div>
                     ))}
-                </ul>
-                <button className='add-item-btn' onClick={handleAddItemClick}>
+                </div>
+                <button className='add-item-btn pop' onClick={handleAddItemClick}>
                     Add Item
                 </button>
             </div>
-
 
             {isAddItemPopupOpen && (
                 <div className='add-item-popup'>

@@ -1,7 +1,7 @@
 .navbar {
     width: 100%;
     background: transparent;
-    background-color: black;
+    background-color: #264653;
     /* background-image: url('../assets/bg4.jpg'); */
     display: flex;
     /* opacity: 1; */

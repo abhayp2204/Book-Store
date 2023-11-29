@@ -35,5 +35,6 @@ button:hover {
 }
 
 .pop:hover {
-    transform: scale(1.02);
+    opacity: 0.9;
+    transform: scale(1.1);
 }
