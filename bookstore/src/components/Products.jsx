@@ -64,7 +64,7 @@ function Products() {
             }
         };
 
-        const fetchUserCart = async (userId) => {
+        const fetchUserCart = async () => {
             try {
                 const userDoc = await firestore.collection('users').where('uid', '==', userId).get();
 
@@ -76,7 +76,7 @@ function Products() {
             } catch (error) {
                 console.error('Error fetching user cart:', error);
             }
-        };
+        }
 
         fetchUserCart()
         fetchAllItems()
@@ -99,7 +99,7 @@ function Products() {
         item.name.toLowerCase().includes(searchQueryItem.toLowerCase())
     );
 
-    console.log(allItems)
+    console.log(userCart)
     
 
     const handleAddToCart = async (productId) => {
@@ -160,10 +160,21 @@ function Products() {
         } catch (error) {
             console.error('Error updating user cart:', error);
         }
-    };
+    }
+
+    
     const getItemCount = (productId) => {
-        return userCart[productId] || 0;
+        const cartItems = Object.values(userCart);
+
+        for (const item of cartItems) {
+            if (item.productId === productId) {
+                return item.count || 0;
+            }
+        }
+
+        return 0;
     };
+
 
 
     return (
