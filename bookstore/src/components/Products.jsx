@@ -64,24 +64,25 @@ function Products() {
             }
         };
 
-        const fetchUserCart = async () => {
-            try {
-                const userDoc = await firestore.collection('users').where('uid', '==', userId).get();
-
-                if (!userDoc.empty) {
-                    const userData = userDoc.docs[0].data();
-                    const userCart = userData.cart || {};
-                    setUserCart(userCart);
-                }
-            } catch (error) {
-                console.error('Error fetching user cart:', error);
-            }
-        }
-
+        
         fetchUserCart()
         fetchAllItems()
         fetchVendors()
     }, [searchQueryItem, searchQueryVendor]); // Include searchQueryItem and searchQueryVendor as dependencies
+
+    const fetchUserCart = async () => {
+        try {
+            const userDoc = await firestore.collection('users').where('uid', '==', userId).get();
+
+            if (!userDoc.empty) {
+                const userData = userDoc.docs[0].data();
+                const userCart = userData.cart || {};
+                setUserCart(userCart);
+            }
+        } catch (error) {
+            console.error('Error fetching user cart:', error);
+        }
+    }
 
     const handleVendorSearchChange = (e) => {
         setSearchQueryVendor(e.target.value);
@@ -141,28 +142,62 @@ function Products() {
         } catch (error) {
             console.error('Error updating user cart:', error);
         }
-    };
+        fetchUserCart()
 
+    };
 
     const handleRemoveFromCart = async (productId) => {
         try {
-            // Update the user's document in Firestore
-            await firestore.collection('users').where('uid', '==', userId).update({
-                cart: firestore.FieldValue.arrayRemove({ productId, count: 1 }),
-            });
-            setUserCart((prevCart) => {
-                const updatedCart = { ...prevCart };
-                if (updatedCart[productId] > 0) {
-                    updatedCart[productId] -= 1;
+            const userDocRef = firestore.collection('users').where('uid', '==', userId);
+            const userQuerySnapshot = await userDocRef.get();
+
+            if (!userQuerySnapshot.empty) {
+                // Get the first user document (assuming there's only one matching user)
+                const userDoc = userQuerySnapshot.docs[0];
+
+                // Get the user's cart from the document
+                const userCart = userDoc.data().cart || [];
+
+                // Check if the product is already in the cart
+                const existingProductIndex = userCart.findIndex((item) => item.productId === productId);
+
+                if (existingProductIndex !== -1) {
+                    // If the product exists in the cart
+                    const updatedCart = [...userCart];
+
+                    // Decrease the count
+                    if (updatedCart[existingProductIndex].count > 0) {
+                        updatedCart[existingProductIndex].count -= 1;
+
+                        // Remove the item's object entirely if count becomes 0
+                        if (updatedCart[existingProductIndex].count === 0) {
+                            updatedCart.splice(existingProductIndex, 1);
+                        }
+
+                        // Update the user's document in Firestore
+                        await userDoc.ref.update({
+                            cart: updatedCart,
+                        });
+
+                        // Update the local state
+                        setUserCart((prevCart) => ({
+                            ...prevCart,
+                            [productId]: (prevCart[productId] || 0) - 1,
+                        }));
+                    }
                 }
-                return updatedCart;
-            });
+            }
         } catch (error) {
             console.error('Error updating user cart:', error);
         }
-    }
+        fetchUserCart();
+    };
 
-    
+
+
+
+
+
     const getItemCount = (productId) => {
         const cartItems = Object.values(userCart);
 
