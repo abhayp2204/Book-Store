@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import '../css/Home.css';
-import Books from './Books';
 import SearchBar from './SearchBar'
 import SearchResultsList from './SearchResultsList'
 
@@ -11,7 +10,6 @@ function Home() {
         <div className="home">
             <SearchBar setResults={setResults} />
             <SearchResultsList results={results} />
-            <Books />
         </div>
     );
 }

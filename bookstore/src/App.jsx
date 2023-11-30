@@ -15,8 +15,7 @@ import SignIn from './components/auth/SignIn'
 import Navbar from './components/Navbar'
 import Home from './components/Home'
 import Products from './components/Products'
-import Books from './components/Books'
-import AddBook from './components/AddBook'
+import Merch from './components/Merch';
 import Cart from './components/Cart'
 import Checkout from './components/Checkout'
 import Shop from './components/Shop'
@@ -46,19 +45,16 @@ function App() {
                 />
 
                 <Route
-                    path='/Shop'
+                    path='/shop'
                     element={<Shop />}
                 />
 
                 <Route
-                    path='/home'
-                    element={<Books />}
+                    path='/merch'
+                    element={<Merch />}
                 />
 
-                <Route
-                    path='/add'
-                    element={<AddBook />}
-                />
+
 
                 <Route
                     path='/cart'

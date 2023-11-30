@@ -1,0 +1,110 @@
+/* Merch.css */
+
+.merch-container {
+    max-width: 400px;
+    margin: auto;
+    margin-top: 150px;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.merch-title {
+    text-align: center;
+    font-size: 24px;
+    margin-bottom: 20px;
+    color: #333;
+}
+
+.merch-select {
+    margin-bottom: 15px;
+}
+
+.merch-label {
+    display: block;
+    margin-bottom: 8px;
+    font-size: 16px;
+    color: #555;
+}
+
+.merch-dropdown {
+    width: 100%;
+    padding: 10px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+.merch-summary {
+    margin-top: 30px;
+}
+
+.merch-subtitle {
+    font-size: 20px;
+    margin-bottom: 10px;
+    color: #333;
+}
+
+.merch-info {
+    font-size: 16px;
+    margin: 5px 0;
+    color: #555;
+}
+
+.merch-colors {
+    margin-bottom: 15px;
+}
+
+.color-buttons {
+    display: flex;
+}
+
+.color-button {
+    width: 40px;
+    height: 40px;
+    margin-right: 10px;
+    border-radius: 50%;
+    border: none;
+    cursor: pointer;
+    outline: none;
+}
+
+.color-preview {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    margin-top: 10px;
+}
+
+.color-button {
+    width: 40px;
+    height: 40px;
+    margin-right: 10px;
+    border-radius: 50%;
+    border: none;
+    cursor: pointer;
+    outline: none;
+}
+
+.size-buttons {
+    display: flex;
+    gap: 10px;
+}
+
+.size-button {
+    width: 40px;
+    height: 40px;
+    border-radius: 8px;
+    border: none;
+    cursor: pointer;
+    outline: none;
+    background-color: #eee;
+    color: #333;
+    font-size: 16px;
+    transition: background-color 0.3s;
+}
+
+.size-button:hover {
+    background-color: #ddd;
+}

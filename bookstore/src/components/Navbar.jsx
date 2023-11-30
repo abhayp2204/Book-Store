@@ -55,6 +55,7 @@ function Navbar() {
             <Link to='/home' className='nav-link'>Home</Link>
             <Link to='/products' className='nav-link'>Products</Link>
             {isVendor && <Link to='/shop' className='nav-link'>Shop</Link>}
+            {isVendor && <Link to='/merch' className='nav-link'>Merch</Link>}
             <Link to='/cart' className='nav-link'>Cart</Link>
             <Link to='/checkout' className='nav-link'>Checkout</Link>
             {isAdmin && <Link to='/add' className='nav-link-admin'>Add Product</Link>}
