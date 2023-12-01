@@ -1,95 +1,153 @@
 import React, { useState, useEffect } from 'react';
-import '../css/Checkout.css';
-
-// Firebase
-import firebase from 'firebase/compat/app';
-import 'firebase/compat/firestore';
-import 'firebase/compat/auth';
 import { auth, firestore } from '../firebase';
+import '../css/Checkout.css'; // Add your CSS file for styling
+import { Link } from 'react-router-dom';
 
-import Payment from './Payment';
-
-function Checkout(props) {
-    const usersRef = firestore.collection('users');
-    const booksRef = firestore.collection('books');
-    const [cart, setCart] = useState([]);
-    const [books, setBooks] = useState([]);
+function Checkout() {
+    const userId = auth.currentUser.uid
+    const [cartDetails, setCartDetails] = useState([])
+    const [isItemsConfirmed, setItemsConfirmed] = useState(false)
+    const [selectedPaymentMethod, setSelectedPaymentMethod] = useState('')
+    const [isPlaceOrderDisabled, setPlaceOrderDisabled] = useState(true)
 
     useEffect(() => {
-        const user = auth.currentUser;
-        if (!user) return;
-
-        // Get the user data
-        const userRef = usersRef.where('uid', '==', user.uid);
-        userRef.get()
-            .then((snapshot) => {
-                if (!snapshot.empty) {
-                    const userDoc = snapshot.docs[0];
-                    const userData = userDoc.data();
-                    const userCart = userData.cart || [];
-                    setCart(userCart);
-                }
-            })
-            .catch((error) => {
-                console.log('Error fetching user data: ', error);
-            });
-
-        // Get the book data
-        const fetchData = async () => {
+        const fetchUserCart = async () => {
             try {
-                const query = booksRef.orderBy('id');
-                const data = await query.get();
-                const bookList = data.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
-                setBooks(bookList);
+                const userDoc = await firestore.collection('users').where('uid', '==', userId).get();
+
+                if (!userDoc.empty) {
+                    const userData = userDoc.docs[0].data();
+                    const userCart = userData.cart || [];
+                    fetchCartDetails(userCart);
+                }
             } catch (error) {
-                console.error('Error fetching books:', error);
+                console.error('Error fetching user cart:', error);
             }
         };
 
-        fetchData();
-    }, []);
+        const fetchCartDetails = async (cartItems) => {
+            const productsRef = firestore.collection('products');
+
+            const cartItemDetails = [];
+
+            for (let i = 0; i < cartItems.length; i++) {
+                const cartItem = cartItems[i];
+
+                try {
+                    const productQuery = await productsRef.where('id', '==', cartItem.productId).get();
+                    if (!productQuery.empty) {
+                        const productDoc = productQuery.docs[0];
+                        const productData = productDoc.data();
+
+                        cartItemDetails.push({
+                            ...cartItem,
+                            details: productData,
+                        });
+                    }
+                } catch (error) {
+                    console.error('Error fetching product details:', error);
+                }
+            }
+
+            setCartDetails(cartItemDetails);
+        };
+
+        fetchUserCart();
+    }, [userId]);
+
+    useEffect(() => {
+        setPlaceOrderDisabled(!isItemsConfirmed);
+    }, [isItemsConfirmed]);
+
+    const handleConfirmItems = () => {
+        setItemsConfirmed(true);
+    };
 
     return (
-        <div className='checkout'>
-            <div className='checkout-title'>Checkout</div>
-            {/* <div className='line' /> */}
-            <div className='checkout-content'>
-                <div className='checkout-details'>
-                    <form className='checkout-form'>
-                        <div className='checkout-input'>
-                            <label className='checkout-prompt' htmlFor='country'>Country  </label>
-                            <input className='checkout-input' type='text' id='country' name='country' />
+        <div className="checkout-container">
+            <div className="order-container">
+                <h2 className="order-details-title">Order Details</h2>
+                <form className="order-form">
+                    <div className="form-group">
+                        <label htmlFor="deliveryAddress" className="form-label">Delivery Address:</label>
+                        <textarea id="deliveryAddress" name="deliveryAddress" className="form-textarea" required></textarea>
+                    </div>
+
+                    <div className="form-group">
+                        <label htmlFor="phoneNumber" className="form-label">Phone Number:</label>
+                        <input type="tel" id="phoneNumber" name="phoneNumber" className="form-input" required />
+                    </div>
+
+                    <div className="form-group">
+                        <label htmlFor="email" className="form-label">Email:</label>
+                        <input type="email" id="email" name="email" className="form-input" required />
+                    </div>
+
+                    <div className="form-group">
+                        <label className="form-label">Payment Method:</label>
+                        <div className="payment-method-options">
+                            <button
+                                type="button"
+                                className={`payment-method-btn ${selectedPaymentMethod === 'creditCard' ? 'selected' : ''}`}
+                                onClick={() => setSelectedPaymentMethod('creditCard')}
+                            >
+                                Credit Card
+                            </button>
+
+                            <button
+                                type="button"
+                                className={`payment-method-btn ${selectedPaymentMethod === 'paypal' ? 'selected' : ''}`}
+                                onClick={() => setSelectedPaymentMethod('paypal')}
+                            >
+                                PayPal
+                            </button>
+
+                            {/* Add more buttons for other payment methods as needed */}
                         </div>
-                        <div className='checkout-input'>
-                            <label className='checkout-prompt' htmlFor='state'>State  </label>
-                            <input className='checkout-input' type='text' id='state' name='state' />
-                        </div>
-                        <div className='checkout-input'>
-                            <label className='checkout-prompt' htmlFor='address'>Address  </label>
-                            <input className='checkout-input' type='text' id='address' name='address' />
-                        </div>
-                    </form>
-                    <Payment /> 
-                </div>
-                {/* <div className='checkout-items'>
-                    {cart &&
-                        cart.map((bookId, index) => (
-                            <CheckoutItem index={index} books={books} key={bookId} />
-                        ))}
-                </div> */}
+                    </div>
+
+
+                    {/* Add more fields for other order details as needed */}
+
+                    <button
+                        type="submit"
+                        className={`${!isItemsConfirmed ? 'disabled' : 'order-submit-btn'}`}
+                        disabled={!isItemsConfirmed}
+                    >
+                        Place Order
+                    </button>
+
+
+                </form>
             </div>
-        </div>
-    );
-}
 
-function CheckoutItem(props) {
-    const book = props.books[props.index];
-    if (!book) return null;
-    return (
-        <div className='checkout-item'>
-            <div className='checkout-book-title'>{book.title}</div>
-            <div className='checkout-book-author'>by {book.author}</div>
-            <img className='checkout-book-image' src={book.image} alt='book' />
+
+
+
+            <div className="cart-container">
+                
+                <h2>Your Cart</h2>
+                <div className="cart-items">
+                    {cartDetails.map((cartItem, index) => (
+                        <div key={index} className="cart-item">
+                            <span id='cart-item-name'>{cartItem.details.name} (x{cartItem.count})</span>
+                            <span>${cartItem.details.price * cartItem.count}</span>
+                        </div>
+                    ))}
+                </div>
+                {!isItemsConfirmed && (
+                    <button className="confirm-items" onClick={handleConfirmItems}>
+                        Confirm your items
+                    </button>
+                )}
+                {isItemsConfirmed && (
+                    <div className="items-confirmedd">
+                        Items Confirmed
+                    </div>
+                )}
+            </div>
+            
+
         </div>
     );
 }

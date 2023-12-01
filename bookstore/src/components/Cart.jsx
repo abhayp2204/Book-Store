@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { auth, firestore } from '../firebase';
 import '../css/Cart.css'; // Add your CSS file for styling
+import { Link } from 'react-router-dom';
 
 function Cart() {
     const userId = auth.currentUser.uid;
@@ -77,6 +78,9 @@ function Cart() {
                     </div>
                 ))}
             </div>
+            <Link to="/checkout" className="proceed-to-checkout linkstyle">
+                Proceed to Checkout
+            </Link>
         </div>
     );
 }

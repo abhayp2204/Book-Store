@@ -1,127 +1,164 @@
-.checkout {
+.checkout-container {
     display: flex;
-    flex-direction: column;
-    justify-self: center;
-    align-items: center;
-    margin-top: 30px;
-    height: 939px;
-
-    background-image: url('../assets/background/bg9.jpg');
-    background-repeat: no-repeat;
-    background-size: cover;
+    justify-content: space-between;
+    align-items: flex-start;
 }
 
-.line {
-    width: 90%;
-    height: 2px;
-    background-color: rgb(175, 171, 171);
-    margin-bottom: 20px;
+.cart-container {
+    width: 45%;
+    /* Adjust as needed */
 }
 
-.checkout-content {
-    display: flex;
-    width: 100%;
-    background: transparent;
+.cart-items {
+    margin-top: 10px;
 }
 
-
-.checkout-title {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    text-align: center;
-    background: transparent;
-    color: white;
-    
-    font-size: 50px;
-    font-weight: bold;
-    
-    padding: 20px;
-    margin-top: 40px;
-    border-radius: 10px;
+.cart-item {
+    margin-bottom: 8px;
 }
 
-.checkout-items {
-    background: transparent;
-    display: flex;
-    height: 360px;
-    /* width: 20%; */
-    padding: 5px 100px;
-    margin-right: 100px;
-}
-
-.checkout-item {
-    background-color: rgb(99, 96, 96);
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    width: 250px;
-    padding: 20px;
-    border-radius: 10px;
-    /* height: 200px; */
-    margin-right: 40px;
-    /* opacity: 0.7; */
-}
-
-.checkout-book-title {
-    background: transparent;
-    font-size: 18px;
-    font-weight: bold;
-}
-
-.checkout-book-author {
-    font-size: 18px;
-    color: rgb(92, 92, 92);
-}
-
-.checkout-book-image {
-    height: 190px;
-}
-
-.checkout-details {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    width: 100%;
-    padding: 20px;
-    background-color: rgb(24, 22, 26);
-    /* margin-left: 100px; */
-}
-
-.checkout-form {
-    display: flex;
-    flex-direction: column;
+.confirm-items {
+    color: #fff;
     padding: 10px;
-    background: transparent;
+    border: none;
+    cursor: pointer;
+    transition: background-color 300ms ease-in-out;
 }
 
-.checkout-input {
-    display: flex; /* This will make prompts and inputs align horizontally. */
-    justify-content: space-between; /* Distributes space evenly between prompts and inputs. */
-    font-size: 20px;
+
+.items-confirmed {
+    color: #28a745;
+    margin-top: 10px;
+}
+
+.order-container {
+    margin-top: 100px;
+    margin-left: 100px;
+    width: 45%;
+    padding: 50px;
+    border-radius: 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.4);
+    /* Add a subtle shadow */
+}
+
+
+.order-details-title {
+    font-size: 2.5rem;
     margin-bottom: 10px;
-    padding: 4px;
-    border-radius: 10px;
-    background: transparent;
 }
 
-.checkout-input label {
-    width: 30%; /* Adjust the width as needed to align your prompts. */
-    text-align: right; /* Align the prompts to the right. */
+.order-form {
+    margin-top: 20px;
+    font-size: 20px;
 }
 
-.checkout-input input {
-    width: 70%;
-    border: 1px solid white;
-    color: white;
+.form-textarea {
+    font-size: 19px;
     padding: 10px;
-    font-size: 15px;
+    width: 600px;
+    height: 100px;
 }
 
-.checkout-prompt {
-    color: white;
-    background: transparent;
-    margin-top: 5px;
-    margin-right: 14px;
+.form-group {
+    margin-bottom: 30px;
 }
+
+.form-label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+}
+
+.form-input {
+    width: 100%;
+    padding: 12px;
+    font-size: 18px;
+    box-sizing: border-box;
+    border: 1px solid #264653;
+    border-radius: 4px;
+    width: 400px;
+    /* Additional styling for input */
+}
+
+
+
+.payment-method-options {
+    display: flex;
+    gap: 10px;
+}
+
+.payment-method-btn {
+    padding: 15px 20px;
+    font-size: 18px;
+    border: none;
+    background-color: #264653;
+    color: white;
+    cursor: pointer;
+    border-radius: 4px;
+    transition: background-color 300ms ease-in-out;
+}
+
+.payment-method-btn.selected {
+    background-color: #1a4150;
+    color: #fff;
+}
+
+.payment-method-btn:hover {
+    background-color: #056a93;
+}
+
+.order-submit-btn {
+    background-color: #ff9900;
+    margin-top: 20px;
+    border-radius: 4px;
+    font-size: 20px;
+    color: #fff;
+    padding: 10px 15px;
+    border: none;
+    /* Additional styling for submit button */
+}
+
+.disabled {
+    opacity: 0.4;
+    cursor: none;
+    background-color: #ff9900;
+    margin-top: 20px;
+    border-radius: 4px;
+    font-size: 20px;
+    color: #fff;
+    padding: 10px 15px;
+    border: none;
+}
+
+
+.order-submit-btn:hover {
+    background-color: #e68a00;
+}
+
+.confirm-items {
+    background-color: #264653;
+    margin-top: 20px;
+    font-size: 20px;
+    padding: 20px;
+    border-radius: 6px;
+}
+
+.confirm-items:hover {
+    cursor: pointer;
+    background-color: #056a93;
+}
+
+.items-confirmedd {
+    background-color: #8ac926;
+    color: white;
+    margin-top: 20px;
+    font-size: 20px;
+    padding: 20px;
+    border-radius: 6px;
+    cursor: pointer;
+}
+
+.items-confirmedd:hover {
+    background-color: #8bb941;
+}
+

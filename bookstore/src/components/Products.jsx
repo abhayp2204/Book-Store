@@ -119,10 +119,8 @@ function Products() {
                 const existingProductIndex = userCart.findIndex((item) => item.productId === productId);
 
                 if (existingProductIndex !== -1) {
-                    // If the product exists in the cart, increment the count
                     userCart[existingProductIndex].count += 1;
                 } else {
-                    // If the product is not found in the cart, add it with count 1
                     userCart.push({ productId, count: 1 });
                 }
 
