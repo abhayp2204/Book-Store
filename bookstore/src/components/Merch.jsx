@@ -1,8 +1,11 @@
 import React, { useState } from 'react';
 import '../css/Merch.css'; // Assuming you have a corresponding CSS file
+// import image
+import Hoodie from '../assets/Merch/black.png'
 
 const designs = ['Design 1', 'Design 2', 'Design 3'];
 const colors = [
+    { value: '#111111', name: 'Black' },
     { value: '#ff6666', name: 'Red' },
     { value: '#6699ff', name: 'Blue' },
     { value: '#99cc99', name: 'Green' },
@@ -77,9 +80,10 @@ const Merch = () => {
             </div>
             <div className="merch-summary">
                 <h2 className="merch-subtitle">Your Customized Hoodie:</h2>
-                <p className="merch-info">Design: {hoodie.design}</p>
+                {/* <p className="merch-info">Design: {hoodie.design}</p>
                 <p className="merch-info">Color: {hoodie.color}</p>
-                <p className="merch-info">Size: {hoodie.size}</p>
+                <p className="merch-info">Size: {hoodie.size}</p> */}
+                <img className="merch-image" src={Hoodie} alt="Hoodie" />
             </div>
         </div>
     );

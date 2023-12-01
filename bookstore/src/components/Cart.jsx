@@ -1,172 +1,82 @@
 import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
-import '../css/Cart.css';
+import { auth, firestore } from '../firebase';
+import '../css/Cart.css'; // Add your CSS file for styling
 
-// Firebase
-import firebase from "firebase/compat/app";
-import "firebase/compat/firestore";
-import "firebase/compat/auth";
-import { auth, firestore } from "../firebase";
+function Cart() {
+    const userId = auth.currentUser.uid;
+    const [cartDetails, setCartDetails] = useState([]);
 
-function Cart(props) {
-    const usersRef = firestore.collection('users');
-    const booksRef = firestore.collection('books');
-
-    const [cartItems, setCartItems] = useState([])
-    const [booksData, setBooksData] = useState([])
-    const [loading, setLoading] = useState(true);
-
-
-    const updateCartCount = (bookId, newCount) => {
-        console.log("New count = ", newCount)
-        // Ensure the user is authenticated
-        const user = auth.currentUser;
-        if (user) {
-            const userRefQuery = usersRef.where('uid', '==', user.uid);
-    
-            // Fetch the user data based on the query
-            userRefQuery.get()
-                .then((querySnapshot) => {
-                    if (!querySnapshot.empty) {
-                        const userDoc = querySnapshot.docs[0];
-                        const userData = userDoc.data();
-                        const currentCart = userData.cart || [];
-    
-                        // Find the index of the book in the cart
-                        const index = currentCart.findIndex(cartItem => cartItem.bookId === bookId);
-    
-                        if (newCount === 0) {
-                            console.log("Zero")
-                            if (index !== -1) {
-                                // If the count becomes 0, remove the book from cartItems
-                                currentCart.splice(index, 1);
-                            }
-                        } else {
-                            // If the book is in the cart, update its count
-                            if (index !== -1) {
-                                currentCart[index].count = newCount;
-                            } else {
-                                // If the book is not in the cart, add it with the new count
-                                currentCart.push({ bookId: bookId, count: newCount });
-                            }
-                        }
-    
-                        // Update the user's cart in Firestore using the user document reference
-                        userDoc.ref.update({ cart: currentCart })
-                            .then(() => {
-                                setCartItems(currentCart);
-                                console.log('Cart count updated in Firestore');
-                            })
-                            .catch((error) => {
-                                console.error('Error updating cart in Firestore:', error);
-                            });
-                        }
-                    
-                })
-                .catch((error) => {
-                    console.error('Error fetching user details:', error);
-                });
-        }
-    };
-    
-    
-
-    // First useEffect to initialize data
     useEffect(() => {
-        const user = auth.currentUser;
-        if (!user) return;
+        const fetchUserCart = async () => {
+            try {
+                const userDoc = await firestore.collection('users').where('uid', '==', userId).get();
 
-        const userRef = usersRef.where('uid', '==', user.uid);
-
-        userRef.get()
-            .then((snapshot) => {
-                if (!snapshot.empty) {
-                    const userDoc = snapshot.docs[0];
-                    const userData = userDoc.data();
+                if (!userDoc.empty) {
+                    const userData = userDoc.docs[0].data()
                     const userCart = userData.cart || [];
-
-                    // Set the user's cart items in the state
-                    setCartItems(userCart);
-                    setLoading(false); // Set loading to false once the data is fetched
-                } else {
-                    // Handle the case where the user document doesn't exist
-                    console.log("User document doesn't exist.");
-                    setLoading(false); // Set loading to false if the user document doesn't exist
+                    fetchCartDetails(userCart);
                 }
-            })
-            .catch((error) => {
+            } catch (error) {
                 console.error('Error fetching user cart:', error);
-            });
-    }, [cartItems, booksData]);
+            }
+        };
 
-    // Second useEffect to update book counts when userCart changes
-    useEffect(() => {
-        if (cartItems.length === 0) return;
+        const fetchCartDetails = async (cartItems) => {
+            console.log("cart items = ", cartItems)
+            const productsRef = firestore.collection('products');
 
-        // Fetch book details for the items in the cart
-        const bookPromises = cartItems.map(cartItem => {
-            return booksRef.where('id', '==', cartItem.bookId).get();
-        });
+            const cartItemDetails = [];
 
-        Promise.all(bookPromises)
-            .then(bookSnapshots => {
-                const booksData = bookSnapshots.map(bookSnapshot => {
-                    const matchingBook = bookSnapshot.docs[0];
-                    return {
-                        id: matchingBook.id,
-                        ...matchingBook.data(),
-                        count: cartItems.find(item => {
-                            return item.bookId === matchingBook.data().id
-                        })?.count || 1,
-                    };
-                });
-                setBooksData(booksData);
-            })
-            .catch(error => {
-                console.error('Error fetching book data:', error);
-            });
-    }, [cartItems, booksData]);
+            for (let i = 0; i < cartItems.length; i++) {
+                
+                const cartItem = cartItems[i];
+                console.log("Cart Item = ", cartItem)
 
-    // Calculate the total price
-    const totalPrice = cartItems.length == 0? 0: booksData.reduce((total, book) => total + (book.price || 0) * book.count, 0);
+                try {
+                    const productQuery = await productsRef.where('id', '==', cartItem.productId).get();
+                    if (!productQuery.empty) {
+                        const productDoc = productQuery.docs[0];
+                        const productData = productDoc.data();
+
+                        const obj = { ...cartItem, details: productData }
+                        // console.log(obj)
+                        cartItemDetails.push({
+                            ...cartItem,
+                            details: productData,
+                        });
+                    }
+                    else {
+                        console.log("empty")
+                    }
+                } catch (error) {
+                    console.error('Error fetching product details:', error);
+                }
+            }
+
+            console.log("cid = ", cartItemDetails);
+            setCartDetails(cartItemDetails);
+        };
+
+
+
+        fetchUserCart();
+    }, [userId]);
+
 
     return (
-        <div className="cart">
-            <p className='cart-title'>Your Cart</p>
-            <p className='cart-price'>Total Price = ${totalPrice}</p> {/* Display the total price */}
-            {loading ? (
-                <p>Loading...</p>
-            ) : 
-            (
-                <div className='cart-container'>
-                    {cartItems.length > 0 && 
-                        <div className="cart-books">
-                            {booksData.map((book, index) => (
-                                // Check if book.count is greater than 0 before rendering
-                                book.count > 0 && (
-                                    <div className='book-details-cart' key={index}>
-                                    <p className='book-title'>{book?.title}</p>
-                                    {book?.image && (
-                                        <img className='book-image' src={book.image} alt={book.title} />
-                                        )}
-                                    <p className='book-author'>by {book?.author}</p>
-                                    <p className='book-genre'>{book?.genre}</p>
-                                    <p className='book-year'>{book?.publishedYear}</p>
-                                    <p className='book-price'>${book?.price} (x{book.count})</p>
-                                    <div className="cart-counter">
-                                        <button className='counter-button' onClick={() => updateCartCount(book.id, book.count - 1)}>-</button>
-                                        <span className='counter-count'>{book.count}</span>
-                                        <button className='counter-button' onClick={() => updateCartCount(book.id, book.count + 1)}>+</button>
-                                    </div>
-                                    </div>
-                                )
-                            ))}
-                        </div>
-                    }
-                    {cartItems.length === 0 && <p>Your cart is empty.</p>}
-                    <Link className='checkout-link pop' to='/checkout'>Checkout</Link>
-                </div>
-            )}
+        <div className="cart-container">
+            <h2>Your Cart</h2>
+            <div className="cart-items">
+                {cartDetails.map((cartItem, index) => (
+                    <div key={index} className="cart-item">
+                        <span id='cart-item-name'>{cartItem.details.name} (x{cartItem.count})</span>
+                        <span>${cartItem.details.price * cartItem.count}</span>
+                        {/* {cartItem.details.imageURL && (
+                            <img src={cartItem.details.imageURL} alt={cartItem.details.name} />
+                        )} */}
+                    </div>
+                ))}
+            </div>
         </div>
     );
 }

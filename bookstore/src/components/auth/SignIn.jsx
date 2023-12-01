@@ -64,11 +64,11 @@ function SignIn() {
     return (
         <div className="sign-in-container">
             <div className='welcome'>Welcome to Campus Bookstore!</div>
-            <div>
+            <div className="account-type">
                 <label>Select Account Type: </label>
-                <select value={accountType} onChange={(e) => handleAccountTypeChange(e.target.value)}>
-                    <option value="customer">Customer</option>
-                    <option value="vendor">Vendor</option>
+                <select className='account-options' value={accountType} onChange={(e) => handleAccountTypeChange(e.target.value)}>
+                    <option className='account-option' value="customer">Customer</option>
+                    <option className='account-option' value="vendor">Vendor</option>
                 </select>
             </div>
 

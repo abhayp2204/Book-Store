@@ -14,7 +14,6 @@
     justify-content: center;
     align-items: center;
     height: 971px;
-    background-image: url('../assets/bg3.jpg');
     background-repeat: no-repeat;
 }
 
@@ -40,6 +39,24 @@
     transform: scale(1.2);
 }
 
+.account-type {
+    font-size: 30px;
+    font-weight: bold;
+    display: flex;
+    flex-direction: column;
+}
+
+.account-options {
+    padding: 20px;
+    margin-top: 20px;
+    border-radius: 20px;
+}
+
+.account-option {
+    padding: 20px;
+    margin-top: 20px;
+    border-radius: 20px;
+}
 
 /* Upload */
 /* Title */

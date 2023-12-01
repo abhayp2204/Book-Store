@@ -59,13 +59,11 @@
     padding: 10px;
     border-radius: 30px;
     align-self: flex-start;
-    /* Align the search bar to the start of the flex container */
 }
 
 .items {
     display: flex;
     justify-content: center;
-    align-items: center;
 }
 
 .products-view {
@@ -76,13 +74,25 @@
     padding: 20px;
 }
 
+
 .product-details {
+    display: flex;
+    flex-direction: column;
+    margin: 20px;
+    /* Set a consistent margin for top and bottom */
+}
+
+.product-details-upper {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
     background: transparent;
-    margin: 20px;
     width: 300px;
+    height: 300px;
+}
+
+.product-details-lower {
+    margin-left: 63px;
 }
 
 .product-details img {

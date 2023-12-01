@@ -245,43 +245,38 @@ function Products() {
                 <div className="items">
                     {filteredItems.map((item, index) => (
                         <div key={index} className="product-details">
-                            <span className="product-name">{item.name} - ${item.price}</span>
-                            <div className="product-price"></div>
-                            <div className="product-vendor">{item.vendorName}</div>
-                            {item.imageURL && <img src={item.imageURL} alt={item.name} />}
+                            <div className='product-details-upper'>
 
-                            
+                                <span className="product-name">{item.name} - ${item.price}</span>
+                                <div className="product-price"></div>
+                                <div className="product-vendor">{item.vendorName}</div>
+                                {item.imageURL && <img src={item.imageURL} alt={item.name} />}
 
+                                <button onClick={() => handleAddToCart(item.id)} className="add-to-cart-btn">
+                                    Add to Cart
+                                </button>
+                            </div>
 
-                            <button onClick={() => handleAddToCart(item.id)} className="add-to-cart-btn">
-                                Add to Cart
-                            </button>
-
-
-
-                            {getItemCount(item.id) > 0 && (
-                                <div className="quantity-controls">
-                                    <button
-                                        onClick={() => handleRemoveFromCart(item.id)}
-                                        className="quantity-btn"
-                                    >
-                                        -
-                                    </button>
-                                    <span className="quantity">{getItemCount(item.id)}</span>
-                                    <button
-                                        onClick={() => handleAddToCart(item.id)}
-                                        className="quantity-btn"
-                                    >
-                                        +
-                                    </button>
-                                </div>
-                            )}
+                            <div className='product-details-lower'>
+                                {getItemCount(item.id) > 0 && (
+                                    <div className="quantity-controls">
+                                        <button onClick={() => handleRemoveFromCart(item.id)} className="quantity-btn">
+                                            -
+                                        </button>
+                                        <span className="quantity">{getItemCount(item.id)}</span>
+                                        <button onClick={() => handleAddToCart(item.id)} className="quantity-btn">
+                                            +
+                                        </button>
+                                    </div>
+                                )}
+                            </div>
                         </div>
                     ))}
                 </div>
             </div>
         </div>
     );
+
 }
 
 export default Products;

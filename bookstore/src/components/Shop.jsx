@@ -25,6 +25,7 @@ function Shop() {
     const [searchTerm, setSearchTerm] = useState('');
 
     const usersRef = firestore.collection('users');
+    const productsRef = firestore.collection('products');
 
     useEffect(() => {
         const fetchData = async () => {
@@ -94,6 +95,15 @@ function Shop() {
                 const userData = userDoc.data();
                 const currentItems = userData.items || [];
 
+                // Add the new item to the "products" collection
+                const productsRef = firestore.collection('products');
+                await productsRef.add({
+                    id: newItem.id,
+                    name: newItem.name,
+                    price: newItem.price,
+                    imageURL: newItem.imageURL || '',
+                });
+
                 await userDoc.ref.update({
                     items: [...currentItems, newItem],
                 });
@@ -111,6 +121,7 @@ function Shop() {
             console.error('Error adding item:', error);
         }
     };
+
 
     return (
         <div className='shop-container'>

@@ -1,122 +1,48 @@
-.cart {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    height: 929px;
-
-    padding: 20px;
-    text-align: center;
-
-    background-image: url('../assets/background/bg9.jpg');
-    background-repeat: no-repeat;
-    background-size: cover;
-}
+/* Add your styles for the Cart component here */
 
 .cart-container {
-    background: transparent;
-}
-
-.cart-books {
-    display: flex;
-    background: transparent;
-}
-
-.cart-title {
-    background: transparent;
-    font-weight: bold;
-    font-size: 25px;
-    color: white;
-    margin-top: 70px;
-    margin-bottom: 20px;
-}
-
-.cart-price {
-    background-color: #2b2a2a;
-    font-size: 18px;
-    font-weight: bold;
-    color: #aef739;
-    padding: 14px;
+    max-width: 600px;
+    margin: 20px auto;
+    margin-top: 100px;
+    padding: 20px;
+    border: 1px solid #ddd;
     border-radius: 10px;
-    width: 200px;
-    margin-bottom: 20px;
-}
-
-.cart-books {
-    margin-top: 20px;
-    display: flex;
-    justify-content: center;
-}
-
-.book-details-cart {
-    position: relative;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    text-align: center;
-
-    width: 300px;
-    padding: 15px;
-    border-radius: 10px;
-    border: 1px solid rgb(137, 124, 124);
-    margin: 10px 20px;
 }
 
-.checkout-link {
-    border: none;
-    font-size: 20px;
-    color: #383737;
-    font-weight: bold;
-    display: inline-block;
-    margin: 10px;
-    width: 100px;
-    border-radius: 30px;
-    background-color: greenyellow;
-    text-decoration: none;
-    padding: 15px 20px;
+.cart-items {
+    margin-top: 20px;
 }
 
-.checkout-link:hover {
-    background-color: #95ed07;
-}
-
-.book-image {
-    width: 180px;
-}
-
-
-.cart-counter {
-    background-color: #95ed07;
+.cart-item {
     display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 200px;
-    padding: 0px 30px;
-    border-radius: 10px;
-    margin: 10px;
+    justify-content: space-between;
+    padding: 10px;
+    border-bottom: 1px solid #ddd;
+    font-size: 20px;
+    padding: 30px;
+    
 }
 
-.counter-count {
+.cart-item span {
     background: transparent;
-    margin: 10px 80px;
-    font-size: 20px;
+    margin-right: 80px;
 }
 
-.counter-button {
-    background-color: black;
-    color: white;
+#cart-item-name {
+    background: transparent;
     font-weight: bold;
-    border: none;
-    font-size: 14px;
-    padding: 5px 10px;
-    border-radius: 100px;
-
-    display: flex;
-    justify-content: center;
-    align-items: center;
 }
 
-.counter-button:hover {
-    cursor: pointer;
+.cart-items img {
+    width: 200px;
+}
+
+h2 {
+    color: #333;
 }
