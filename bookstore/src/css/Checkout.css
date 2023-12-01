@@ -33,7 +33,7 @@
 
 .order-container {
     margin-top: 100px;
-    margin-left: 100px;
+    margin-left: 60px;
     width: 45%;
     padding: 50px;
     border-radius: 20px;
@@ -153,6 +153,7 @@
     color: white;
     margin-top: 20px;
     font-size: 20px;
+    font-weight: bold;
     padding: 20px;
     border-radius: 6px;
     cursor: pointer;
@@ -162,3 +163,25 @@
     background-color: #8bb941;
 }
 
+/* Checkout.css */
+
+@keyframes spin {
+    0% {
+        transform: rotate(0deg);
+    }
+
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+.loading-spinner {
+    border: 6px solid rgba(0, 0, 0, 0.1);
+    border-top: 6px solid #264653;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    animation: spin 1s linear infinite;
+    margin: auto;
+    margin-top: 20px;
+}
