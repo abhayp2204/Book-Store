@@ -135,22 +135,34 @@
     cursor: pointer;
 }
 
+
+.product-details-lower {
+    display: flex;
+    align-items: center;
+    margin-right: 20px;
+}
+
 .quantity-controls {
     display: flex;
     align-items: center;
+    justify-items: center;
     margin-top: 10px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
 }
 
 .quantity-btn {
-    background-color: #38a3a5;
-    color: white;
+    /* background-color: #38a3a5; */
     border: none;
-    padding: 5px;
+    padding: 5px 10px;
     border-radius: 5px;
-    margin: 0 5px;
+    /* font-weight: bold; */
+    font-size: 20px;
+    margin: 0 3px;
+    /* Adjusted margin to center the buttons */
     cursor: pointer;
+    /* box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); */
+    /* Add a subtle box shadow */
 }
-
 .quantity {
     font-size: 18px;
     margin: 0 5px;

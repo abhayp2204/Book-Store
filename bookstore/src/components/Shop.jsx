@@ -4,7 +4,7 @@ import { ref, uploadBytesResumable, getDownloadURL } from 'firebase/storage';
 import '../css/Shop.css';
 
 function generateItemId() {
-    return 'item#' + Math.random().toString(36).substr(2, 6);
+    return 'item-' + Math.random().toString(36).substr(2, 6);
 }
 
 function Shop() {

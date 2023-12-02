@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { auth, firestore } from '../firebase';
+import { Link } from 'react-router-dom'
 import '../css/Products.css';
 
 function Products() {
@@ -242,36 +243,37 @@ function Products() {
 
                 <div className="items">
                     {filteredItems.map((item, index) => (
-                        <div key={index} className="product-details">
-                            <div className='product-details-upper'>
+                        <Link key={index} to={`/product/${item.id}`} className="product-link linkstyle">
+                            <div className="product-details">
+                                <div className='product-details-upper'>
+                                    <span className="product-name">{item.name} - ${item.price}</span>
+                                    <div className="product-vendor">{item.vendorName}</div>
+                                    {item.imageURL && <img src={item.imageURL} alt={item.name} />}
+                                    <button onClick={() => handleAddToCart(item.id)} className="add-to-cart-btn">
+                                        Add to Cart
+                                    </button>
+                                </div>
 
-                                <span className="product-name">{item.name} - ${item.price}</span>
-                                <div className="product-price"></div>
-                                <div className="product-vendor">{item.vendorName}</div>
-                                {item.imageURL && <img src={item.imageURL} alt={item.name} />}
-
-                                <button onClick={() => handleAddToCart(item.id)} className="add-to-cart-btn">
-                                    Add to Cart
-                                </button>
+                                <div className='product-details-lower'>
+                                    {getItemCount(item.id) > 0 && (
+                                        <div className="quantity-controls">
+                                            <button onClick={() => handleRemoveFromCart(item.id)} className="quantity-btn">
+                                                -
+                                            </button>
+                                            <span className="quantity">{getItemCount(item.id)}</span>
+                                            <button onClick={() => handleAddToCart(item.id)} className="quantity-btn">
+                                                +
+                                            </button>
+                                        </div>
+                                    )}
+                                </div>
                             </div>
-
-                            <div className='product-details-lower'>
-                                {getItemCount(item.id) > 0 && (
-                                    <div className="quantity-controls">
-                                        <button onClick={() => handleRemoveFromCart(item.id)} className="quantity-btn">
-                                            -
-                                        </button>
-                                        <span className="quantity">{getItemCount(item.id)}</span>
-                                        <button onClick={() => handleAddToCart(item.id)} className="quantity-btn">
-                                            +
-                                        </button>
-                                    </div>
-                                )}
-                            </div>
-                        </div>
+                        </Link>
                     ))}
+
                 </div>
             </div>
+
         </div>
     );
 
