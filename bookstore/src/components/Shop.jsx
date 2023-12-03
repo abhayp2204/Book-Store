@@ -20,6 +20,9 @@ function Shop() {
     const [filteredItems, setFilteredItems] = useState([]);
     const [isAddItemPopupOpen, setIsAddItemPopupOpen] = useState(false);
     const [newItemName, setNewItemName] = useState('');
+    const [newItemDescription, setNewItemDescription] = useState('');
+    const [newItemIngredients, setNewItemIngredients] = useState([]);
+    const [newIngredient, setNewIngredient] = useState('');
     const [newItemPrice, setNewItemPrice] = useState('');
     const [imageFile, setImageFile] = useState('');
     const [searchTerm, setSearchTerm] = useState('');
@@ -63,11 +66,38 @@ function Shop() {
         setIsAddItemPopupOpen(true);
     };
 
+    const handleAddIngredient = () => {
+        if (newIngredient.trim() !== '') {
+            setNewItemIngredients(prevIngredients => [...prevIngredients, newIngredient.trim()]);
+            setNewIngredient('');
+        }
+    };
+
+    const handleRemoveIngredient = (index) => {
+        setNewItemIngredients(prevIngredients => prevIngredients.filter((_, i) => i !== index));
+    };
+
     const handleAddItemSubmit = async () => {
+        // Generate a QR code for the new item
+        const qrCodeData = {
+            id: newItem.id,
+            name: newItem.name,
+            description: newItem.description,
+            ingredients: newItem.ingredients,
+            price: newItem.price,
+            imageURL: newItem.imageURL || '',
+        }
+        const qrCodeJSON = JSON.stringify(qrCodeData)
+
+
+
         const newItem = {
             id: generateItemId(),
             name: newItemName,
+            description: newItemDescription,
+            ingredients: newItemIngredients,
             price: newItemPrice,
+            qrCode: qrCodeJSON,
         };
 
         if (imageFile) {
@@ -100,8 +130,11 @@ function Shop() {
                 await productsRef.add({
                     id: newItem.id,
                     name: newItem.name,
+                    description: newItem.description,
+                    ingredients: newItem.ingredients,
                     price: newItem.price,
                     imageURL: newItem.imageURL || '',
+                    qrCode: newItem.qrCode,
                 });
 
                 await userDoc.ref.update({
@@ -113,7 +146,10 @@ function Shop() {
                 setIsAddItemPopupOpen(false);
 
                 setNewItemName('');
+                setNewItemDescription('');
+                setNewItemIngredients([]);
                 setNewItemPrice('');
+                setNewIngredient('');
 
                 alert("Item added successfully");
             }
@@ -122,19 +158,22 @@ function Shop() {
         }
     };
 
-
     return (
         <div className='shop-container'>
             <div className={`shop-details ${isAddItemPopupOpen ? 'popup-open' : ''}`}>
                 <h1>{vendorDetails.shopName}</h1>
                 <div className='vendor-desc'>{vendorDetails.description}</div>
                 <p>Timings: {vendorDetails.timings}</p>
+                <button className='add-item-btn pop' onClick={handleAddItemClick}>
+                    Add Item
+                </button>
             </div>
 
             <div className={`items-list ${isAddItemPopupOpen ? 'popup-open' : ''}`}>
                 <div className='your-items'>
                     Your Items:
                     <input
+                        className='search-bar'
                         type='text'
                         placeholder='Search items...'
                         value={searchTerm}
@@ -150,9 +189,7 @@ function Shop() {
                         </div>
                     ))}
                 </div>
-                <button className='add-item-btn pop' onClick={handleAddItemClick}>
-                    Add Item
-                </button>
+                
             </div>
 
             {isAddItemPopupOpen && (
@@ -164,6 +201,43 @@ function Shop() {
                         value={newItemName}
                         onChange={(e) => setNewItemName(e.target.value)}
                     />
+                    <label>Description:</label>
+                    <textarea
+                        value={newItemDescription}
+                        onChange={(e) => setNewItemDescription(e.target.value)}
+                    />
+
+
+
+
+                    <label>Ingredients:</label>
+                    <div className='ingredients-input'>
+
+
+                        {newItemIngredients && newItemIngredients.map((ingredient, i) => (
+                            <div key={i} className='ingredient-item'>
+                                <span>{ingredient}</span>
+                                <button onClick={() => handleRemoveIngredient(i)} className='remove-ingredient-btn'>Remove</button>
+                            </div>
+                        ))}
+
+
+                        <div className='add-ingredient-input'>
+                            <input
+                                type='text'
+                                className='add-ingredient-input-field'
+                                value={newIngredient}
+                                onChange={(e) => setNewIngredient(e.target.value)}
+                                placeholder='Add ingredient...'
+                            />
+                            <button onClick={handleAddIngredient} className='add-ingredient-btn'>Add</button>
+                        </div>
+                    </div>
+
+
+
+
+
                     <input type='file' onChange={e => setImageFile(e.target.files[0])} />
                     <label>Price:</label>
                     <input

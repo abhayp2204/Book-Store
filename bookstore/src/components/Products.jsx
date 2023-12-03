@@ -214,14 +214,13 @@ function Products() {
     return (
         <div className="products-container">
             <div className="vendors-list">
-                <div className="vendor-search-bar">
-                    <input
-                        type="text"
-                        placeholder="Search vendors..."
-                        value={searchQueryVendor}
-                        onChange={handleVendorSearchChange}
-                    />
-                </div>
+                <input
+                    className='search-bar'
+                    type="text"
+                    placeholder="Search vendors..."
+                    value={searchQueryVendor}
+                    onChange={handleVendorSearchChange}
+                />
                 {filteredVendors.map((vendor, index) => (
                     <div key={index} className="vendor-info">
                         <div className="vendor-name">{vendor.shopName}</div>
@@ -232,19 +231,18 @@ function Products() {
             </div>
 
             <div className="products-view">
-                <div className="search-bar">
-                    <input
-                        type="text"
-                        placeholder="Search products..."
-                        value={searchQueryItem}
-                        onChange={handleItemSearchChange}
-                    />
-                </div>
+                <input
+                    className='search-bar'
+                    type="text"
+                    placeholder="Search products..."
+                    value={searchQueryItem}
+                    onChange={handleItemSearchChange}
+                />
 
                 <div className="items">
                     {filteredItems.map((item, index) => (
-                        <Link key={index} to={`/product/${item.id}`} className="product-link linkstyle">
-                            <div className="product-details">
+                        <div key={index} className="product-details">
+                            <Link to={`/product/${item.id}`} className="product-link linkstyle">
                                 <div className='product-details-upper'>
                                     <span className="product-name">{item.name} - ${item.price}</span>
                                     <div className="product-vendor">{item.vendorName}</div>
@@ -253,23 +251,24 @@ function Products() {
                                         Add to Cart
                                     </button>
                                 </div>
+                            </Link>
 
-                                <div className='product-details-lower'>
-                                    {getItemCount(item.id) > 0 && (
-                                        <div className="quantity-controls">
-                                            <button onClick={() => handleRemoveFromCart(item.id)} className="quantity-btn">
-                                                -
-                                            </button>
-                                            <span className="quantity">{getItemCount(item.id)}</span>
-                                            <button onClick={() => handleAddToCart(item.id)} className="quantity-btn">
-                                                +
-                                            </button>
-                                        </div>
-                                    )}
-                                </div>
+                            <div className='product-details-lower'>
+                                {getItemCount(item.id) > 0 && (
+                                    <div className="quantity-controls">
+                                        <button onClick={() => handleRemoveFromCart(item.id)} className="quantity-btn">
+                                            -
+                                        </button>
+                                        <span className="quantity">{getItemCount(item.id)}</span>
+                                        <button onClick={() => handleAddToCart(item.id)} className="quantity-btn">
+                                            +
+                                        </button>
+                                    </div>
+                                )}
                             </div>
-                        </Link>
+                        </div>
                     ))}
+
 
                 </div>
             </div>

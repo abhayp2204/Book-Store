@@ -4,11 +4,11 @@
 }
 
 .vendors-list {
-    width: 500px;
+    width: 700px;
     padding: 20px 30px;
     background-color: #264653;
     color: white;
-    /* height: 891px; */
+    height: 891px;
 }
 
 .vendors-list h2 {
@@ -33,7 +33,7 @@
 .vendor-name {
     background: transparent;
     font-weight: bold;
-    font-size: 30px;
+    font-size: 60px;
     color: white;
     margin-bottom: 10px;
 }
@@ -41,16 +41,15 @@
 
 .vendor-description,
 .vendor-timings {
+    font-size: 20px;
     color: white;
     background: transparent;
     margin-top: 5px;
 }
 
-.vendor-search-bar {
-    padding: 14px 16px;
-    border-radius: 30px;
-    font-size: 14px;
-    margin-bottom: 50px;
+.vendor-timings {
+    margin-top: 16px;
+    color: #eb0748;
 }
 
 .search-bar {
@@ -75,6 +74,7 @@
 }
 
 
+
 .product-details {
     display: flex;
     flex-direction: column;
@@ -88,22 +88,23 @@
     justify-content: space-between;
     background: transparent;
     width: 300px;
-    height: 300px;
+    /* height: 300px; */
 }
 
 .product-details-lower {
-    margin-left: 63px;
+    margin-left: 54px;
+    /* margin-top: 150px; */
 }
 
 .product-details img {
-    width: 200px;
+    width: 300px;
     margin-top: 10px;
 }
 
 .product-name {
     font-weight: bold;
     background: transparent;
-    font-size: 20px;
+    font-size: 36px;
     margin-bottom: 5px;
 }
 
@@ -117,7 +118,8 @@
 .product-vendor {
     background: transparent;
     font-weight: bold;
-    font-size: 14px;
+    font-size: 20px;
+    color: #38a3a5;
 }
 
 
@@ -126,12 +128,14 @@
 
 .add-to-cart-btn {
     width: 200px;
+    font-size: 20px;
     background-color: #38a3a5;
     color: white;
     border: none;
-    padding: 10px;
+    padding: 15px 10px;
     border-radius: 10px;
     margin-top: 10px;
+    margin-left: 50px;
     cursor: pointer;
 }
 
@@ -147,6 +151,7 @@
     align-items: center;
     justify-items: center;
     margin-top: 10px;
+    margin-left: 50px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
 }
 
@@ -166,4 +171,14 @@
 .quantity {
     font-size: 18px;
     margin: 0 5px;
+}
+
+.search-bar {
+    padding: 14px 20px;
+    font-size: 20px;
+}
+
+.vendors-list .search-bar {
+    width: 300px;
+    margin-bottom: 20px;
 }

@@ -1,34 +1,127 @@
-/* ProductPage.css */
 .product-page-container {
-    margin: 50px;
-    margin-top: 100px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
 }
 
-.product-name {
-    font-size: 80px;
-    color: #333;
+.product-details-container {
+    display: flex;
+    justify-content: space-around;
+    max-width: 1200px;
 }
 
-.product-description {
-    font-size: 16px;
-    color: #555;
+.product-details-left {
+    width: 40%;
 }
 
-.product-price {
-    font-size: 24px;
-    color: #007bff;
+.product-details-right {
+    width: 40%;
+    padding: 20px 60px;
+    border-left: 1px solid #ccc;
+    
+    display: flex;
+    flex-direction: column;
+    justify-items: center;
+}
+
+.product-details-qr {
+    width: 20%;
+    border-left: 1px solid #ccc;
+    padding: 20px 50px;
+}
+
+.product-name-pp {
+    font-size: 100px;
+    /* margin-bottom: 10px; */
+}
+
+.product-price-pp {
+    font-size: 26px;
+    color: #3498db;
+    font-weight: bold;
+    margin-bottom: 20px;
+}
+
+.product-image-pp {
+    width: 300px;
+    border-radius: 20px;
+    margin-bottom: 20px;
+}
+
+.add-to-cart-btn-pp {
+    font-size: 20px;
+    padding: 16px 35px;
+    margin-left: 64px;
+    background-color: #fe7f2d;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
     margin-bottom: 10px;
 }
 
-.product-image {
-    width: 300px;
-    border-radius: 10px;
-    height: auto;
-    margin: 20px;
+.quantity-controls-pp {
+    display: flex;
+    align-items: center;
+    margin-left: 111px;
 }
 
-.loading-message {
+.quantity-btn-pp {
+    font-size: 20px;
+    background-color: #95a5a6;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin: 0 5px;
+}
+
+.quantity-pp {
     font-size: 18px;
-    color: #999;
+    margin: 0 5px;
+}
+
+.product-description-pp {
+    font-size: 26px;
+    opacity: 0.6;
+    font-weight: bold;
+    margin-bottom: 20px;
+    margin-top: 30px;
+}
+
+.product-ingredients-pp {
+    font-size: 26px;
     margin-top: 20px;
+    opacity: 0.8;
+}
+
+.product-ingredients-pp ul {
+    margin-left: 0px;
+    margin-top: 20px;;
+    /* list-style-type: none; */
+    padding: 0;
+}
+
+.product-ingredients-pp li {
+    margin-bottom: 5px;
+    background-color: #8ac926;
+    color: white;
+    padding: 10px 20px;
+    border-radius: 20px;
+    transition: 300ms ease-in-out;
+    width: 240px;
+}
+
+.product-ingredients-pp li:hover {
+    opacity: 0.8;
+    cursor: pointer;
+}
+
+.qr-title {
+    font-size: 30px;
+    font-weight: bold;
+    margin-top: 26px;
+    opacity: 0.62;
+    margin-bottom: 40px;
 }

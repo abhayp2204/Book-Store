@@ -52,7 +52,7 @@ function Navbar() {
 
     return (
         <div className='navbar'>
-            <Link to='/home' className='nav-link'>Home</Link>
+            <Link to='/' className='nav-link'>Home</Link>
             <Link to='/products' className='nav-link'>Products</Link>
             {isVendor && <Link to='/shop' className='nav-link'>Shop</Link>}
             {isVendor && <Link to='/merch' className='nav-link'>Merch</Link>}
