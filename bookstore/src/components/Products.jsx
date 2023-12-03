@@ -247,11 +247,11 @@ function Products() {
                                     <span className="product-name">{item.name} - ${item.price}</span>
                                     <div className="product-vendor">{item.vendorName}</div>
                                     {item.imageURL && <img src={item.imageURL} alt={item.name} />}
-                                    <button onClick={() => handleAddToCart(item.id)} className="add-to-cart-btn">
-                                        Add to Cart
-                                    </button>
                                 </div>
                             </Link>
+                            <button onClick={() => handleAddToCart(item.id)} className="add-to-cart-btn">
+                                Add to Cart
+                            </button>
 
                             <div className='product-details-lower'>
                                 {getItemCount(item.id) > 0 && (

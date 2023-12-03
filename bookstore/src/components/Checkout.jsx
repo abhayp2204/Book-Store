@@ -8,6 +8,7 @@ function Checkout() {
     const userId = auth.currentUser.uid;
     const [cartDetails, setCartDetails] = useState([]);
     const [isItemsConfirmed, setItemsConfirmed] = useState(false);
+    const [deliveryAddress, setDeliveryAddress] = useState('')
     const [selectedPaymentMethod, setSelectedPaymentMethod] = useState('');
     const [isPlaceOrderDisabled, setPlaceOrderDisabled] = useState(true);
     const [phoneNumber, setPhoneNumber] = useState('');
@@ -76,30 +77,88 @@ function Checkout() {
 
 
     const handlePlaceOrder = async () => {
-
-        // Simulate order confirmation email
-        const orderId = `order#${Math.floor(Math.random() * 10000)}`;
-        const deliveryDate = new Date();
-        deliveryDate.setDate(deliveryDate.getDate() + 3);
-
-        // Send an email (Note: This is a simulation, do not expose email service credentials in the client-side code)
         try {
-            const emailParams = {
-                to_name: auth.currentUser.displayName,
-                to_email: email,
-                order_id: orderId,
-                delivery_date: deliveryDate.toDateString(),
+            // Simulate order confirmation email
+            const deliveryDate = new Date();
+            deliveryDate.setDate(deliveryDate.getDate() + 3);
+
+
+
+            // Create a new order object
+            const newOrder = {
+                orderId: `order#${Math.floor(Math.random() * 10000)}`,
+                items: cartDetails.map(cartItem => ({
+                    productId: cartItem.details.id,
+                    quantity: cartItem.count,
+                })),
+                total: cartDetails.reduce((total, cartItem) => total + cartItem.details.price * cartItem.count, 0),
+                deliveryDate: deliveryDate,
+                deliveryAddress: document.getElementById('deliveryAddress').value,
+                phoneNumber: phoneNumber,
+                email: email,
+                name: auth.currentUser.displayName,
             };
 
-            const result = await emailjs.send('service_rlwetfa', 'template_lb674x7', emailParams, '-mO2vciW8EwbzsaqF');
-            console.log(result);
-            alert("Your order has been confirmed!")
-        } catch (error) {
-            console.error('Error sending email:', error);
-        }
+            // Add the new order to the "orders" collection
+            const ordersRef = firestore.collection('orders')
+            const newOrderRef = await ordersRef.add(newOrder)
 
-        // Proceed with other order placement logic
-        // ...
+
+
+
+
+            // Update user document with the new order
+            console.log(userId)
+            const userRef = firestore.collection('users').where('uid', '==', userId)
+            console.log("userref = ", userRef)
+            const userDoc = await userRef.get()
+            console.log("userdoc = ", userDoc)
+
+            if (!userDoc.empty) {
+                const userDocRef = userDoc.docs[0].ref;
+                const userData = userDoc.docs[0].data();
+                const userOrders = userData.orders || [];
+
+                // Add the orderId to the user's orders list
+                userOrders.push(newOrder.orderId);
+
+                try {
+                    // Update the user document with the new orders list
+                    await userDocRef.update({
+                        orders: userOrders,
+                    });
+
+                    console.log('User document updated with orderId:', newOrderRef.id);
+                } catch (updateError) {
+                    console.error('Error updating user document:', updateError);
+                }
+
+                // Send an email (Note: This is a simulation, do not expose email service credentials in the client-side code)
+                const emailParams = {
+                    to_name: auth.currentUser.displayName,
+                    to_email: email,
+                    order_id: newOrder.orderId,
+                    order_items: newOrder.orderItems,
+                    delivery_date: deliveryDate.toDateString(),
+                };
+
+                const result = await emailjs.send('service_rlwetfa', 'template_lb674x7', emailParams, '-mO2vciW8EwbzsaqF');
+                console.log(result);
+
+                alert("Your order has been confirmed!");
+                console.log('Order added successfully:', newOrderRef.id);
+            }
+            else {
+                console.log("Error adding order")
+            }
+
+
+            
+
+            
+        } catch (error) {
+            console.error('Error placing order:', error);
+        }
     };
 
 
@@ -117,7 +176,14 @@ function Checkout() {
                         <label htmlFor="deliveryAddress" className="form-label">
                             Delivery Address:
                         </label>
-                        <textarea id="deliveryAddress" name="deliveryAddress" className="form-textarea" required></textarea>
+                        <textarea
+                            id="deliveryAddress"
+                            name="deliveryAddress"
+                            className="form-textarea"
+                            value={deliveryAddress}
+                            onChange={(e) => setDeliveryAddress(e.target.value)}
+                            required
+                        />
                     </div>
 
                     <div className="form-group">

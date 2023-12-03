@@ -69,6 +69,7 @@ function Navbar() {
             <Link to='/merch' className='nav-link'>Merch</Link>
             <Link to='/cart' className='nav-link'>Cart</Link>
             <Link to='/checkout' className='nav-link'>Checkout</Link>
+            <Link to='/orders' className='nav-link'>Orders</Link>
 
             {/* User Image and Dropdown */}
             {/* <div className='user-dropdown' onClick={handleDropdownToggle}>
