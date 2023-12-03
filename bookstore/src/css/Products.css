@@ -8,7 +8,7 @@
     padding: 20px 30px;
     background-color: #264653;
     color: white;
-    height: 891px;
+    height: 1200px;
 }
 
 .vendors-list h2 {
@@ -63,6 +63,8 @@
 .items {
     display: flex;
     justify-content: center;
+    flex-wrap: wrap;
+    width: 1200px;
 }
 
 .products-view {
@@ -82,6 +84,7 @@
     /* Set a consistent margin for top and bottom */
 }
 
+
 .product-details-upper {
     display: flex;
     flex-direction: column;
@@ -97,14 +100,15 @@
 }
 
 .product-details img {
-    width: 300px;
+    height: 300px;
     margin-top: 10px;
+    border-radius: 10px;
 }
 
 .product-name {
     font-weight: bold;
     background: transparent;
-    font-size: 36px;
+    font-size: 24px;
     margin-bottom: 5px;
 }
 

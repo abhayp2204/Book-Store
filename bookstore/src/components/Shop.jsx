@@ -78,26 +78,12 @@ function Shop() {
     };
 
     const handleAddItemSubmit = async () => {
-        // Generate a QR code for the new item
-        const qrCodeData = {
-            id: newItem.id,
-            name: newItem.name,
-            description: newItem.description,
-            ingredients: newItem.ingredients,
-            price: newItem.price,
-            imageURL: newItem.imageURL || '',
-        }
-        const qrCodeJSON = JSON.stringify(qrCodeData)
-
-
-
         const newItem = {
             id: generateItemId(),
             name: newItemName,
             description: newItemDescription,
             ingredients: newItemIngredients,
             price: newItemPrice,
-            qrCode: qrCodeJSON,
         };
 
         if (imageFile) {
@@ -109,7 +95,6 @@ function Shop() {
                 console.log('Image uploaded successfully.');
 
                 const downloadURL = await getDownloadURL(storageRef);
-
                 newItem.imageURL = downloadURL;
 
             } catch (error) {
@@ -118,24 +103,34 @@ function Shop() {
         }
 
         try {
-            const userQuery = await usersRef.where('uid', '==', curUid).get();
+            // Add the new item to the "products" collection
+            const productsRef = firestore.collection('products');
+            await productsRef.add({
+                id: newItem.id,
+                name: newItem.name,
+                description: newItem.description,
+                ingredients: newItem.ingredients,
+                price: newItem.price,
+                imageURL: newItem.imageURL || '',
+            });
 
+            // Generate a QR code for the new item
+            const qrCodeData = {
+                id: newItem.id,
+                name: newItem.name,
+                description: newItem.description,
+                ingredients: newItem.ingredients,
+                price: newItem.price,
+                imageURL: newItem.imageURL || '',
+            };
+            const qrCodeJSON = JSON.stringify(qrCodeData);
+            newItem.qrCode = qrCodeJSON;
+
+            const userQuery = await usersRef.where('uid', '==', curUid).get();
             if (!userQuery.empty) {
                 const userDoc = userQuery.docs[0];
                 const userData = userDoc.data();
                 const currentItems = userData.items || [];
-
-                // Add the new item to the "products" collection
-                const productsRef = firestore.collection('products');
-                await productsRef.add({
-                    id: newItem.id,
-                    name: newItem.name,
-                    description: newItem.description,
-                    ingredients: newItem.ingredients,
-                    price: newItem.price,
-                    imageURL: newItem.imageURL || '',
-                    qrCode: newItem.qrCode,
-                });
 
                 await userDoc.ref.update({
                     items: [...currentItems, newItem],
@@ -157,6 +152,7 @@ function Shop() {
             console.error('Error adding item:', error);
         }
     };
+
 
     return (
         <div className='shop-container'>
@@ -217,7 +213,7 @@ function Shop() {
                         {newItemIngredients && newItemIngredients.map((ingredient, i) => (
                             <div key={i} className='ingredient-item'>
                                 <span>{ingredient}</span>
-                                <button onClick={() => handleRemoveIngredient(i)} className='remove-ingredient-btn'>Remove</button>
+                                <button onClick={() => handleRemoveIngredient(i)} className='remove-ingredient-btn'>X</button>
                             </div>
                         ))}
 

@@ -218,19 +218,21 @@
 }
 
 .ingredient-item span {
-    font-size: small;
     margin-right: 5px;
+    font-weight: bold;
+    opacity: 0.8;
 }
 
 .remove-ingredient-btn {
-    font-size: small;
+    font-size: 12px !important;
+    font-weight: bold !important;
     cursor: pointer;
-    background-color: #ff9999;
+    background-color: #ff9999 !important;
     /* You can change the background color as needed */
     border: none;
-    color: white;
-    padding: 2px 5px;
-    border-radius: 4px;
+    color: white !important;
+    padding: 10px 12px !important;
+    border-radius: 20px !important;
     margin-left: 5px;
 }
 
